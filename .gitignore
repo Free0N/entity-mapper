@@ -1,0 +1,11 @@
+*.swp
+.idea/
+*.iml
+*.ipr
+*.iws
+
+*.crt
+*.key
+*.pkcs12
+
+target/

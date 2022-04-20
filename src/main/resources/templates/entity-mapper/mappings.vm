@@ -1,0 +1,15 @@
+#* @vtlvariable name="contextPath" type="java.lang.String" *#
+<html lang="en">
+<head>
+    <title>Entity Mappings</title>
+    <meta name="decorator" content="admin"/>
+    $webResourceManager.requireResource("org.samearch.jira.lib.entity-mapper:entity-mapper-mappings-resources")
+</head>
+<body>
+<div class="content-body">
+    <h2>Entity mappings</h2>
+    <a href="${contextPath}/plugins/servlet/entity-mapper/audit-journal">Audit</a>
+    <table id="entity_mappings"></table>
+</div>
+</body>
+</html>

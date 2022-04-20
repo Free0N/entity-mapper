@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+    <web-resource key="entity-mapper-common-resources" name="Entity Mapper Common Web Resources">
+        <dependency>com.atlassian.auiplugin:dialog2</dependency>
+        <dependency>com.atlassian.auiplugin:aui-experimental-restfultable</dependency>
+        <dependency>com.atlassian.auiplugin:aui-experimental-iconfont</dependency>
+        <dependency>com.atlassian.auiplugin:aui-buttons</dependency>
+        <resource type="download" name="images/" location="/images"/>
+        <resource type="download" name="RestfulTableConfigurationBuilder.js" location="/js/RestfulTableConfigurationBuilder.js"/>
+    </web-resource>
+    <web-resource key="entity-mapper-mappings-resources" name="Entity Mapper Mappings Page Web Resources">
+        <dependency>org.samearch.jira.lib.entity-mapper:entity-mapper-common-resources</dependency>
+        <resource type="download" name="entity-mapper.js" location="/js/entity-mapper.js"/>
+    </web-resource>
+    <web-resource key="entity-mapper-audit-journal-resources" name="Entity Mapper Audit Journal Page Web Resources">
+        <dependency>org.samearch.jira.lib.entity-mapper:entity-mapper-common-resources</dependency>
+        <resource type="download" name="audit-additional-info-viewer.js" location="/js/audit-additional-info-viewer.js"/>
+        <resource type="download" name="entity-mapper-audit-journal.js" location="/js/entity-mapper-audit-journal.js"/>
+    </web-resource>
+    <web-section key="entity-mapper-settings-section" name="Entity Mapper Settings" location="system.admin.top.navigation.bar" weight="1100">
+        <label>Entity Mapping</label>
+    </web-section>
+    <web-item key="entity-mapper-settings-page-link" name="Link to entity mapper settings" section="entity-mapper-settings-section" weight="100">
+        <description>Provides link to entity mapper settings page</description>
+        <label>Entity Mapping</label>
+        <link linkId="entity-mapper-settings-section">/plugins/servlet/entity-mapper/mappings</link>
+    </web-item>
+
+    <servlet-filter key="entity-mapper-rest-auth-permission-checker-filter"
+                    name="Servlet filter for check permission for REST API"
+                    class="org.samearch.jira.lib.entity.mapper.ui.rest.PermissionCheckerRestFilter"
+                    location="before-dispatch"
+                    weight="100">
+        <url-pattern>/rest/entity-mapper/*</url-pattern>
+    </servlet-filter>
+
+    <servlet key="entity-mapper-settings-page" name="Entity Mapper settings page" class="org.samearch.jira.lib.entity.mapper.ui.VelocityRenderedPageServlet">
+        <description>Provides settings page for entity mapper (map keys to values).</description>
+        <url-pattern>/entity-mapper/mappings</url-pattern>
+        <init-param>
+            <param-name>template</param-name>
+            <param-value>/templates/entity-mapper/mappings.vm</param-value>
+        </init-param>
+    </servlet>
+    <servlet key="entity-mapper-audit-page" name="Entity mappings audit page" class="org.samearch.jira.lib.entity.mapper.ui.VelocityRenderedPageServlet">
+        <description>Provides audit journal page for entity mappings.</description>
+        <url-pattern>/entity-mapper/audit-journal</url-pattern>
+        <init-param>
+            <param-name>template</param-name>
+            <param-value>/templates/entity-mapper/mappings-audit-journal.vm</param-value>
+        </init-param>
+    </servlet>
+    <rest key="entity-mapper-rest-api" path="entity-mapper" version="1">
+        <description>Provides useful REST API for entity mapper</description>
+    </rest>
+    <ao key="entity-mapper-ao">
+        <entity>org.samearch.jira.lib.entity.mapper.impl.mapping.dao.EntityMappingEntity</entity>
+        <entity>org.samearch.jira.lib.entity.mapper.impl.audit.dao.AuditEventEntity</entity>
+        <entity>org.samearch.jira.lib.entity.mapper.impl.audit.dao.AuditEventAdditionalInfoEntity</entity>
+    </ao>
+</atlassian-plugin>
