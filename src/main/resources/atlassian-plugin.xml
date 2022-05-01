@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ This file is part of Entity Mapper Plugin.
+  ~
+  ~ Entity Mapper Plugin is free software: you can redistribute it and/or modify it
+  ~ under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Entity Mapper Plugin is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+  ~ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License along with Entity Mapper Plugin.
+  ~ If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2022 samearch.org
+  -->
 
 <atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+
     <plugin-info>
-        <description>${project.description}</description>
+        <description>
+            ${project.description}&lt;br&gt;&lt;br&gt;
+            Source of this plugin you can get on Bitbucket: &lt;a href="https://bitbucket.org/samearch-org/entity-mapper/"&gt;entity-mapper&lt;/a&gt;
+        </description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}"/>
         <param name="plugin-icon">images/pluginIcon.png</param>
         <param name="plugin-logo">images/pluginLogo.png</param>
     </plugin-info>
+
     <web-resource key="entity-mapper-common-resources" name="Entity Mapper Common Web Resources">
         <dependency>com.atlassian.auiplugin:dialog2</dependency>
         <dependency>com.atlassian.auiplugin:aui-experimental-restfultable</dependency>
@@ -25,6 +46,7 @@
         <resource type="download" name="audit-additional-info-viewer.js" location="/js/audit-additional-info-viewer.js"/>
         <resource type="download" name="entity-mapper-audit-journal.js" location="/js/entity-mapper-audit-journal.js"/>
     </web-resource>
+
     <web-section key="entity-mapper-settings-section" name="Entity Mapper Settings" location="system.admin.top.navigation.bar" weight="1100">
         <label>Entity Mapping</label>
     </web-section>
@@ -58,9 +80,11 @@
             <param-value>/templates/entity-mapper/mappings-audit-journal.vm</param-value>
         </init-param>
     </servlet>
+
     <rest key="entity-mapper-rest-api" path="entity-mapper" version="1">
         <description>Provides useful REST API for entity mapper</description>
     </rest>
+
     <ao key="entity-mapper-ao">
         <entity>org.samearch.jira.lib.entity.mapper.impl.mapping.dao.EntityMappingEntity</entity>
         <entity>org.samearch.jira.lib.entity.mapper.impl.audit.dao.AuditEventEntity</entity>
