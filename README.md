@@ -176,3 +176,39 @@ public class SomeService {
     }
 }
 ```
+
+### Пример использования хелпера для работы с сущностями Jira в ScriptRunner
+
+_Проверен на Jira 7.1.4 со ScriptRunner 5.1.6.2_
+
+Пост-функция, сохраняющая проект, в котором была создана задача, в пользовательское поле.
+
+Пост-функция добавляется на переход создания задачи.
+
+Предварительно нужно создать пользовательское поле типа Project Picker (single project)
+и добавить запись с его идентификатором в Entity Mapper с ключем `wf.INITIAL_PROJECT_CF.id`.
+
+Так же его нужно добавить на экран создания и просмотра задачи.
+
+```groovy
+import com.onresolve.scriptrunner.runner.customisers.PluginModule
+import com.onresolve.scriptrunner.runner.customisers.WithPlugin
+
+import org.samearch.jira.lib.entity.mapper.JiraEntityMappingHelper
+
+import com.atlassian.jira.project.Project
+import com.atlassian.jira.issue.fields.CustomField
+
+@WithPlugin("org.samearch.jira.lib.entity-mapper")
+@PluginModule
+JiraEntityMappingHelper emHelper
+
+final String CF_INITIAL_PROJECT_ID = "wf.INITIAL_PROJECT_CF.id"
+
+Project currentProject = issue.projectObject
+
+CustomField initialProjectCf = emHelper.getMappedCustomFieldById(CF_INITIAL_PROJECT_ID)
+            .orElseThrow{new RuntimeException("Initial project field not configured")}
+
+initialProjectCf.createValue(issue, currentProject)
+```
