@@ -56,3 +56,6 @@ let AuditAdditionalInfoViewer = AJS.RestfulTable.CustomReadView.extend({
         return html;
     }
 });
+
+AJS.EntityMapper = AJS.EntityMapper || {};
+AJS.EntityMapper.AuditAdditionalInfoViewer = AuditAdditionalInfoViewer;
