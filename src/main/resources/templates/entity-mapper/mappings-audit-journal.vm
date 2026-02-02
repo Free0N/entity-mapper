@@ -19,6 +19,8 @@ Copyright (C) 2022 samearch.org
 <head>
     <title>Entity Mappings</title>
     <meta name="decorator" content="admin"/>
+    <meta name="admin.active.section" content="admin_plugins_menu/entity-mapper-settings-section">
+    <meta name="admin.active.tab" content="entity-mapper-audit-link">
     $webResourceManager.requireResource("org.samearch.jira.lib.entity-mapper:entity-mapper-audit-journal-resources")
 </head>
 <body>
