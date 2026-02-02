@@ -16,7 +16,7 @@
  */
 
 AJS.toInit((jQuery) => {
-    let tableConfigurationBuilder = new RestfulTableConfigurationBuilder();
+    let tableConfigurationBuilder = new AJS.EntityMapper.RestfulTableConfigurationBuilder();
 
     // Создание элемента основной таблицы настройки маппингов
     let entityMappingsTableElement = jQuery("#entity_mappings");

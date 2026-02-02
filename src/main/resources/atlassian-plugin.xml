@@ -21,7 +21,7 @@
     <plugin-info>
         <description>
             ${project.description}&lt;br&gt;&lt;br&gt;
-            Source of this plugin you can get on Bitbucket: &lt;a href="https://bitbucket.org/samearch-org/entity-mapper/"&gt;entity-mapper&lt;/a&gt;
+            Source of this plugin you can get on GitHub: &lt;a href="https://github.com/Free0N/entity-mapper"&gt;entity-mapper&lt;/a&gt;
         </description>
         <version>${project.version}</version>
         <vendor name="${project.organization.name}" url="${project.organization.url}"/>

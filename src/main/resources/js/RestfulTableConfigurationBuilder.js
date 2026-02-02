@@ -34,3 +34,6 @@ class RestfulTableConfigurationBuilder {
         }
     }
 }
+
+AJS.EntityMapper = AJS.EntityMapper || {};
+AJS.EntityMapper.RestfulTableConfigurationBuilder = RestfulTableConfigurationBuilder;
