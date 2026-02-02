@@ -50,7 +50,7 @@ AJS.toInit((jQuery) => {
         }, {
             id: "additionalInformation",
             header: "Description",
-            readView: AuditAdditionalInfoViewer
+            readView: AJS.EntityMapper.AuditAdditionalInfoViewer
         }];
 
         window.entityMappingAuditLogTable = new AJS.RestfulTable(auditLogTableConfiguration);
