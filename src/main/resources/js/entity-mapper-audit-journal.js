@@ -30,7 +30,7 @@ AJS.toInit((jQuery) => {
     if (auditRecordsTableElement.length !== 0) {
         let auditRecordsListEndpoint = AJS.contextPath() + "/rest/entity-mapper/1/audit/records";
 
-        let auditLogTableConfiguration = new RestfulTableConfigurationBuilder().buildRoConfiguration();
+        let auditLogTableConfiguration = new AJS.EntityMapper.RestfulTableConfigurationBuilder().buildRoConfiguration();
         auditLogTableConfiguration.el = auditRecordsTableElement;
         auditLogTableConfiguration.resources = {
             all: auditRecordsListEndpoint
