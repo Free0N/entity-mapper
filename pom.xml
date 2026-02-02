@@ -134,6 +134,7 @@
                     <allowGoogleTracking>false</allowGoogleTracking>
                     <enableQuickReload>true</enableQuickReload>
                     <compressResources>false</compressResources>
+                    <skipAllPrompts>true</skipAllPrompts>
                     <instructions>
                         <Atlassian-Plugin-Key>${atlassian.plugin.key}</Atlassian-Plugin-Key>
                         <Export-Package>
