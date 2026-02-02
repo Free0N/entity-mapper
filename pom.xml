@@ -23,7 +23,7 @@
 
     <groupId>org.samearch.jira.lib</groupId>
     <artifactId>entity-mapper</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <packaging>atlassian-plugin</packaging>
 
     <name>Entity Mapper</name>
