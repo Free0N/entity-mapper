@@ -19,6 +19,8 @@ package org.samearch.jira.lib.entity.mapper.ui.rest;
 
 import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
 import org.samearch.jira.lib.entity.mapper.AuditJournal;
+import org.samearch.jira.lib.entity.mapper.AuditJournalFilter;
+import org.samearch.jira.lib.entity.mapper.impl.audit.AuditJournalFilterBuilder;
 import org.samearch.jira.lib.entity.mapper.ui.rest.dto.AuditEventRecordDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -49,8 +51,10 @@ public class AuditRecordsResources {
     @GET
     @Path("/records")
     public Response getAuditRecordsList() {
-
-        List<AuditEventRecordDto> savedAuditRecords = auditJournal.getLastEvents(50).stream()
+        AuditJournalFilter journalFilter = new AuditJournalFilterBuilder()
+                .withEventsLimit(50L)
+                .build();
+        List<AuditEventRecordDto> savedAuditRecords = auditJournal.getEvents(journalFilter).stream()
                 .sorted(Comparator.comparing(AuditEventRecord::getDate))
                 .map(this::objectToDto)
                 .collect(Collectors.toList());

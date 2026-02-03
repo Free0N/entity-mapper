@@ -24,6 +24,6 @@ import java.util.List;
 public interface AuditRecordStorage {
 
     AuditEventRecord addAuditEvent(AuditEventRecord auditEventRecord);
-    List<AuditEventRecord> getLastRecords(int recordsCount);
+    List<AuditEventRecord> getRecords(int recordsCount);
 
 }

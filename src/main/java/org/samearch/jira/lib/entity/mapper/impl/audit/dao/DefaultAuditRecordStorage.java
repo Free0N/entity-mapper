@@ -71,7 +71,7 @@ public class DefaultAuditRecordStorage implements AuditRecordStorage {
     }
 
     @Override
-    public List<AuditEventRecord> getLastRecords(int recordsCount) {
+    public List<AuditEventRecord> getRecords(int recordsCount) {
 
         Query selectQuery = Query.select("ID, INITIATOR, DATE, EVENT, MAPPING_ID")
                 .from(AuditEventEntity.class)

@@ -20,6 +20,7 @@ package org.samearch.jira.lib.entity.mapper.impl.audit;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
 import org.samearch.jira.lib.entity.mapper.AuditJournal;
+import org.samearch.jira.lib.entity.mapper.AuditJournalFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +38,8 @@ public class DefaultAuditJournal implements AuditJournal {
     }
 
     @Override
-    public List<AuditEventRecord> getLastEvents(int lastEventsCount) {
-        return auditRecordStorage.getLastRecords(lastEventsCount);
+    public List<AuditEventRecord> getEvents(AuditJournalFilter eventsFilter) {
+        return auditRecordStorage.getRecords(eventsFilter.eventsCount().intValue());
     }
 
     @Override
