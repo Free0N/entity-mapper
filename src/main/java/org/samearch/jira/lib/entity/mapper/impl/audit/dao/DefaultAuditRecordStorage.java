@@ -35,6 +35,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,21 +87,21 @@ public class DefaultAuditRecordStorage implements AuditRecordStorage {
                 .from(AuditEventEntity.class)
                 .order("DATE DESC")
                 .limit(filter.eventsCount());
-        Map<String, List<String>> whereClauses = new HashMap<>();
+        Map<String, List<Object>> whereClauses = new HashMap<>();
         if (!filter.forIds().isEmpty()) {
             Set<String> requestedIds = filter.forIds().stream().map(Object::toString).collect(Collectors.toSet());
             String requestedIdsParam = String.join(", ", requestedIds);
             whereClauses.put("MAPPING_ID in (?)", Collections.singletonList(requestedIdsParam));
         }
         if (!filter.byInitiator().isEmpty()) {
-            List<String> requestedInitiatorsParam = new ArrayList<>(filter.byInitiator());
+            List<Object> requestedInitiatorsParam = new ArrayList<>(filter.byInitiator());
             String requestedInitiatorsParamPlaceholder = String.join(", ", Collections.nCopies(requestedInitiatorsParam.size(), "?"));
             whereClauses.put("INITIATOR in (" + requestedInitiatorsParamPlaceholder + ")", requestedInitiatorsParam);
         }
         if (filter.inDateRange() != null) {
             DateRange dateRange = filter.inDateRange();
-            String startDateParam = DATE_FOR_QUERY_FORMATTER.format(dateRange.startDate());
-            String endDateParam = DATE_FOR_QUERY_FORMATTER.format(dateRange.endDate());
+            Date startDateParam = Date.from(dateRange.startDate().toInstant());
+            Date endDateParam = Date.from(dateRange.endDate().toInstant());
             whereClauses.put("DATE between ? and ?", Arrays.asList(startDateParam, endDateParam));
         }
         if (!whereClauses.isEmpty()) {
