@@ -28,8 +28,11 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -41,6 +44,9 @@ import java.util.stream.Collectors;
 @Produces({MediaType.APPLICATION_JSON})
 public class AuditRecordsResources {
 
+    private static final DateTimeFormatter REQUEST_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+    private static final DateTimeFormatter RESPONSE_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+
     private final AuditJournal auditJournal;
 
     @Autowired
@@ -50,10 +56,30 @@ public class AuditRecordsResources {
 
     @GET
     @Path("/records")
-    public Response getAuditRecordsList() {
-        AuditJournalFilter journalFilter = new AuditJournalFilterBuilder()
-                .withEventsLimit(50L)
-                .build();
+    public Response getAuditRecordsList(
+            @QueryParam("mappingId") String mappingIdArg,
+            @QueryParam("initiator") String initiatorLoginArg,
+            @QueryParam("startDate") String startDateArg,
+            @QueryParam("endDate") String endDateArg,
+            @QueryParam("eventsLimit") Integer eventsLimit
+    ) {
+        AuditJournalFilterBuilder filterBuilder = new AuditJournalFilterBuilder();
+        filterBuilder.withEventsLimit(eventsLimit != null ? eventsLimit : 50);
+        if (mappingIdArg != null && !mappingIdArg.trim().isEmpty()) {
+            filterBuilder.forIds(Long.parseLong(mappingIdArg));
+        }
+        if (initiatorLoginArg != null && !initiatorLoginArg.trim().isEmpty()) {
+            filterBuilder.byInitiator(initiatorLoginArg);
+        }
+        if (startDateArg != null && !startDateArg.trim().isEmpty()) {
+            ZonedDateTime startDate = argToZonedDateTime(startDateArg);
+            filterBuilder.startFromDate(startDate);
+        }
+        if (endDateArg != null && !endDateArg.trim().isEmpty()) {
+            ZonedDateTime endDate = argToZonedDateTime(endDateArg);
+            filterBuilder.beforeDate(endDate);
+        }
+        AuditJournalFilter journalFilter = filterBuilder.build();
         List<AuditEventRecordDto> savedAuditRecords = auditJournal.getEvents(journalFilter).stream()
                 .sorted(Comparator.comparing(AuditEventRecord::getDate))
                 .map(this::objectToDto)
@@ -68,7 +94,7 @@ public class AuditRecordsResources {
         AuditEventRecordDto auditRecordDto = new AuditEventRecordDto();
 
         auditRecordDto.setId(auditRecord.getId());
-        auditRecordDto.setDate(formatDateTime(auditRecord.getDate()));
+        auditRecordDto.setDate(RESPONSE_DATE_TIME_FORMATTER.format(auditRecord.getDate()));
         auditRecordDto.setInitiator(auditRecord.getInitiator().getName());
         auditRecordDto.setEvent(auditRecord.getEvent());
         auditRecordDto.setMappingId(auditRecord.getMappingId());
@@ -78,11 +104,8 @@ public class AuditRecordsResources {
 
     }
 
-    private String formatDateTime(ZonedDateTime dateTime) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss MM.dd.yyyy");
-        return formatter.format(dateTime);
-
+    private ZonedDateTime argToZonedDateTime(String arg) {
+        return LocalDate.parse(arg, REQUEST_DATE_FORMATTER).atStartOfDay(ZoneId.systemDefault());
     }
 
 }

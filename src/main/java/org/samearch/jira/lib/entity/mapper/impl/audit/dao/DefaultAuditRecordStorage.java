@@ -22,6 +22,8 @@ import com.atlassian.jira.user.util.UserManager;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import net.java.ao.Query;
 import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
+import org.samearch.jira.lib.entity.mapper.AuditJournalFilter;
+import org.samearch.jira.lib.entity.mapper.DateRange;
 import org.samearch.jira.lib.entity.mapper.impl.audit.AuditRecordStorage;
 import org.samearch.jira.lib.entity.mapper.impl.audit.dao.util.QueryParametersExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +31,24 @@ import org.springframework.stereotype.Component;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * TODO: Вынести код управления дополнительной информацией для записи аудита в отдельный класс-хелпер
+ * TODO: Вынести логику построения where-части запроса в отдельный класс-хелпер
  */
 @Component
 public class DefaultAuditRecordStorage implements AuditRecordStorage {
+
+    private static final DateTimeFormatter DATE_FOR_QUERY_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @ComponentImport
     private final ActiveObjects ao;
@@ -71,12 +80,36 @@ public class DefaultAuditRecordStorage implements AuditRecordStorage {
     }
 
     @Override
-    public List<AuditEventRecord> getRecords(int recordsCount) {
+    public List<AuditEventRecord> getRecords(AuditJournalFilter filter) {
 
         Query selectQuery = Query.select("ID, INITIATOR, DATE, EVENT, MAPPING_ID")
                 .from(AuditEventEntity.class)
                 .order("DATE DESC")
-                .limit(recordsCount);
+                .limit(filter.eventsCount());
+        Map<String, List<String>> whereClauses = new HashMap<>();
+        if (!filter.forIds().isEmpty()) {
+            Set<String> requestedIds = filter.forIds().stream().map(Object::toString).collect(Collectors.toSet());
+            String requestedIdsParam = String.join(", ", requestedIds);
+            whereClauses.put("MAPPING_ID in (?)", Collections.singletonList(requestedIdsParam));
+        }
+        if (!filter.byInitiator().isEmpty()) {
+            List<String> requestedInitiatorsParam = new ArrayList<>(filter.byInitiator());
+            String requestedInitiatorsParamPlaceholder = String.join(", ", Collections.nCopies(requestedInitiatorsParam.size(), "?"));
+            whereClauses.put("INITIATOR in (" + requestedInitiatorsParamPlaceholder + ")", requestedInitiatorsParam);
+        }
+        if (filter.inDateRange() != null) {
+            DateRange dateRange = filter.inDateRange();
+            String startDateParam = DATE_FOR_QUERY_FORMATTER.format(dateRange.startDate());
+            String endDateParam = DATE_FOR_QUERY_FORMATTER.format(dateRange.endDate());
+            whereClauses.put("DATE between ? and ?", Arrays.asList(startDateParam, endDateParam));
+        }
+        if (!whereClauses.isEmpty()) {
+            String whereClause = whereClauses.keySet().stream().map(it -> "(" + it + ")").collect(Collectors.joining(" AND "));
+            Object[] whereClauseArgs = whereClauses.values().stream()
+                    .flatMap(List::stream)
+                    .toArray();
+            selectQuery = selectQuery.where(whereClause, whereClauseArgs);
+        }
 
         List<AuditEventRecord> eventRecords = new ArrayList<>();
 

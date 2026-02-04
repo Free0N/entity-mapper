@@ -3,6 +3,8 @@ package org.samearch.jira.lib.entity.mapper.impl.audit;
 import org.samearch.jira.lib.entity.mapper.AuditJournalFilter;
 import org.samearch.jira.lib.entity.mapper.DateRange;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.Set;
 
 public class AuditJournalFilterBuilder {
 
-    private static final Long DEFAULT_EVENTS_COUNT = 100L;
+    private static final Integer DEFAULT_EVENTS_COUNT = 100;
     private static final ZonedDateTime MINIMAL_START_DATE;
 
     static {
@@ -25,13 +27,13 @@ public class AuditJournalFilterBuilder {
                 .withNano(0);
     }
 
-    private Long eventsCount;
+    private Integer eventsCount;
     private final Set<Long> ids = new HashSet<>();
     private final Set<String> initiators = new HashSet<>();
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
 
-    public AuditJournalFilterBuilder withEventsLimit(Long eventsLimit) {
+    public AuditJournalFilterBuilder withEventsLimit(Integer eventsLimit) {
         this.eventsCount = eventsLimit;
         return this;
     }
@@ -75,7 +77,7 @@ public class AuditJournalFilterBuilder {
     }
 
     public AuditJournalFilter build() {
-        Long realEventsLimit = eventsCount != null && eventsCount != 0
+        Integer realEventsLimit = eventsCount != null && eventsCount > 0
                 ? eventsCount
                 : DEFAULT_EVENTS_COUNT;
         ZonedDateTime realStartDate = startDate != null
@@ -83,7 +85,7 @@ public class AuditJournalFilterBuilder {
                 : MINIMAL_START_DATE;
         ZonedDateTime realEndDate = endDate != null
                 ? endDate
-                : ZonedDateTime.now();
+                : LocalDate.now().atStartOfDay(ZoneId.systemDefault()).plusDays(1);
         if (realStartDate.isAfter(realEndDate)) {
             throw new RuntimeException("Start date of interval can't be after end date of interval");
         }
@@ -105,12 +107,12 @@ public class AuditJournalFilterBuilder {
 
     private static final class AuditJournalFilterImpl implements AuditJournalFilter {
 
-        private final Long eventsCount;
+        private final Integer eventsCount;
         private final Set<Long> ids;
         private final Set<String> initiators;
         private final DateRange dateRange;
 
-        public AuditJournalFilterImpl(Long eventsCount, Set<Long> ids, Set<String> initiators, DateRange dateRange) {
+        public AuditJournalFilterImpl(Integer eventsCount, Set<Long> ids, Set<String> initiators, DateRange dateRange) {
             this.eventsCount = eventsCount;
             this.ids = ids;
             this.initiators = initiators;
@@ -118,7 +120,7 @@ public class AuditJournalFilterBuilder {
         }
 
         @Override
-        public Long eventsCount() {
+        public Integer eventsCount() {
             return eventsCount;
         }
 
@@ -134,7 +136,7 @@ public class AuditJournalFilterBuilder {
 
         @Override
         public DateRange inDateRange() {
-            return null;
+            return dateRange;
         }
 
         @Override

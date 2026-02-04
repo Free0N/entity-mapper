@@ -39,7 +39,7 @@ public class DefaultAuditJournal implements AuditJournal {
 
     @Override
     public List<AuditEventRecord> getEvents(AuditJournalFilter eventsFilter) {
-        return auditRecordStorage.getRecords(eventsFilter.eventsCount().intValue());
+        return auditRecordStorage.getRecords(eventsFilter);
     }
 
     @Override
