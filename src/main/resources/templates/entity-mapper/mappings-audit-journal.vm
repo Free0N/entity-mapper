@@ -26,7 +26,7 @@ Copyright (C) 2022 samearch.org
 <body>
 <div class="content-body">
     <h2>Entity mappings changes audit log</h2>
-    <table id="audit_log"></table>
+    <div id="audit-journal"/>
 </div>
 </body>
 </html>

@@ -43,8 +43,8 @@
     </web-resource>
     <web-resource key="entity-mapper-audit-journal-resources" name="Entity Mapper Audit Journal Page Web Resources">
         <dependency>org.samearch.jira.lib.entity-mapper:entity-mapper-common-resources</dependency>
-        <resource type="download" name="audit-additional-info-viewer.js" location="/js/audit-additional-info-viewer.js"/>
-        <resource type="download" name="entity-mapper-audit-journal.js" location="/js/entity-mapper-audit-journal.js"/>
+        <resource type="download" name="flat-audit-log-info-viewer.js" location="/js/flat-audit-log-info-viewer.js"/>
+        <resource type="download" name="flat-audit-log.js" location="/js/flat-audit-log.js"/>
     </web-resource>
 
     <web-section key="entity-mapper-settings-section" name="Entity Mapper Settings"  location="admin_plugins_menu">
