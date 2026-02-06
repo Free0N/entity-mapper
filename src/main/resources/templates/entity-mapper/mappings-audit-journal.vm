@@ -48,7 +48,9 @@ Copyright (C) 2022 samearch.org
         <button class="aui-button" id="journal-filter-refresh-button">
             <span class="aui-icon aui-icon-small aui-iconfont-refresh" aria-hidden="true"></span>
         </button>
-        <div id="audit-journal"></div>
+        <div id="audit-journal">
+            <code>Use refresh button to load data</code>
+        </div>
     </form>
 </div>
 </body>
