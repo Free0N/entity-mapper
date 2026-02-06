@@ -17,6 +17,7 @@
 
 package org.samearch.jira.lib.entity.mapper.ui.rest;
 
+import com.atlassian.jira.user.ApplicationUser;
 import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
 import org.samearch.jira.lib.entity.mapper.AuditJournal;
 import org.samearch.jira.lib.entity.mapper.AuditJournalFilter;
@@ -35,8 +36,11 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -48,10 +52,12 @@ public class AuditRecordsResources {
     private static final DateTimeFormatter RESPONSE_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
     private final AuditJournal auditJournal;
+    private final EntityMappingRestUtils restUtils;
 
     @Autowired
-    public AuditRecordsResources(AuditJournal auditJournal) {
+    public AuditRecordsResources(AuditJournal auditJournal, EntityMappingRestUtils restUtils) {
         this.auditJournal = auditJournal;
+        this.restUtils = restUtils;
     }
 
     @GET
@@ -86,7 +92,22 @@ public class AuditRecordsResources {
                 .collect(Collectors.toList());
 
         return Response.ok(savedAuditRecords).build();
+    }
 
+    @GET
+    @Path("/sys-admins")
+    public Response getAdminUsers(
+            @QueryParam("q") String filterString
+    ) {
+        List<ApplicationUser> filteredAdmins = restUtils.getAdminUsers(filterString);
+        List<Map<String, String>> selectListData = new ArrayList<>();
+        filteredAdmins.forEach(admin -> {
+            Map<String, String> adminData = new HashMap<>();
+            adminData.put("label", admin.getDisplayName());
+            adminData.put("value", admin.getName());
+            selectListData.add(adminData);
+        });
+        return Response.ok(selectListData).build();
     }
 
     private AuditEventRecordDto objectToDto(AuditEventRecord auditRecord) {

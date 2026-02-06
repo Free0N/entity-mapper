@@ -42,6 +42,9 @@
         <resource type="download" name="entity-mapper.js" location="/js/entity-mapper.js"/>
     </web-resource>
     <web-resource key="entity-mapper-audit-journal-resources" name="Entity Mapper Audit Journal Page Web Resources">
+        <dependency>com.atlassian.auiplugin:aui-date-picker</dependency>
+        <dependency>com.atlassian.auiplugin:aui-select</dependency>
+        <dependency>com.atlassian.auiplugin:aui-button</dependency>
         <dependency>org.samearch.jira.lib.entity-mapper:entity-mapper-common-resources</dependency>
         <resource type="download" name="flat-audit-log-info-viewer.js" location="/js/flat-audit-log-info-viewer.js"/>
         <resource type="download" name="flat-audit-log.js" location="/js/flat-audit-log.js"/>
