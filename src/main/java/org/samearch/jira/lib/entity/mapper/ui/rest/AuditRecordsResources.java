@@ -21,7 +21,8 @@ import com.atlassian.jira.user.ApplicationUser;
 import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
 import org.samearch.jira.lib.entity.mapper.AuditJournal;
 import org.samearch.jira.lib.entity.mapper.AuditJournalFilter;
-import org.samearch.jira.lib.entity.mapper.impl.audit.AuditJournalFilterBuilder;
+import org.samearch.jira.lib.entity.mapper.EntityMappingEvent;
+import org.samearch.jira.lib.entity.mapper.impl.audit.util.AuditJournalFilterBuilder;
 import org.samearch.jira.lib.entity.mapper.ui.rest.dto.AuditEventRecordDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -67,6 +68,7 @@ public class AuditRecordsResources {
             @QueryParam("initiator") String initiatorLoginArg,
             @QueryParam("startDate") String startDateArg,
             @QueryParam("endDate") String endDateArg,
+            @QueryParam("event") String event,
             @QueryParam("eventsLimit") Integer eventsLimit
     ) {
         AuditJournalFilterBuilder filterBuilder = new AuditJournalFilterBuilder();
@@ -84,6 +86,12 @@ public class AuditRecordsResources {
         if (endDateArg != null && !endDateArg.trim().isEmpty()) {
             ZonedDateTime endDate = argToZonedDateTime(endDateArg);
             filterBuilder.beforeDate(endDate);
+        }
+        if (event != null && !event.trim().isEmpty()) {
+            try {
+                EntityMappingEvent mappingEvent = EntityMappingEvent.valueOf(event.toUpperCase());
+                filterBuilder.byEvent(mappingEvent);
+            } catch (IllegalArgumentException ignore) {}
         }
         AuditJournalFilter journalFilter = filterBuilder.build();
         List<AuditEventRecordDto> savedAuditRecords = auditJournal.getEvents(journalFilter).stream()

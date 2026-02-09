@@ -60,6 +60,9 @@ function initRefreshButton(args) {
         if (initiator) {
             requestFilter["initiator"] = initiator;
         }
+        if (event) {
+            requestFilter["event"] = event;
+        }
         if (mappingId) {
             requestFilter["mappingId"] = mappingId;
         }

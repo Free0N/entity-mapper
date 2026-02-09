@@ -7,4 +7,5 @@ public interface AuditJournalFilter {
     Set<Long> forIds();
     Set<String> byInitiator();
     DateRange inDateRange();
+    EntityMappingEvent mappingEvent();
 }

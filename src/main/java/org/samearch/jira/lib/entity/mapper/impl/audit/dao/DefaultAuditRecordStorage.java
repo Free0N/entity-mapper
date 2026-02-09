@@ -37,10 +37,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -103,6 +101,9 @@ public class DefaultAuditRecordStorage implements AuditRecordStorage {
             Date startDateParam = Date.from(dateRange.startDate().toInstant());
             Date endDateParam = Date.from(dateRange.endDate().toInstant());
             whereClauses.put("DATE between ? and ?", Arrays.asList(startDateParam, endDateParam));
+        }
+        if (filter.mappingEvent() != null) {
+            whereClauses.put("EVENT = ?", Collections.singletonList(filter.mappingEvent()));
         }
         if (!whereClauses.isEmpty()) {
             String whereClause = whereClauses.keySet().stream().map(it -> "(" + it + ")").collect(Collectors.joining(" AND "));

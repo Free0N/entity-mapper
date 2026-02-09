@@ -1,7 +1,8 @@
-package org.samearch.jira.lib.entity.mapper.impl.audit;
+package org.samearch.jira.lib.entity.mapper.impl.audit.util;
 
 import org.samearch.jira.lib.entity.mapper.AuditJournalFilter;
 import org.samearch.jira.lib.entity.mapper.DateRange;
+import org.samearch.jira.lib.entity.mapper.EntityMappingEvent;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -34,6 +35,7 @@ public class AuditJournalFilterBuilder {
     private final Set<String> initiators = new HashSet<>();
     private ZonedDateTime startDate;
     private ZonedDateTime endDate;
+    private EntityMappingEvent mappingEvent;
 
     public AuditJournalFilterBuilder withEventsLimit(Integer eventsLimit) {
         this.eventsCount = eventsLimit;
@@ -78,6 +80,11 @@ public class AuditJournalFilterBuilder {
         return this;
     }
 
+    public AuditJournalFilterBuilder byEvent(EntityMappingEvent event) {
+        this.mappingEvent = event;
+        return this;
+    }
+
     public AuditJournalFilter build() {
         Integer realEventsLimit = eventsCount != null && eventsCount > 0
                 ? eventsCount
@@ -95,7 +102,7 @@ public class AuditJournalFilterBuilder {
             realEndDate = realEndDate.plusDays(1);
         }
         DateRange dateRange = new DateRange(realStartDate, realEndDate);
-        return new AuditJournalFilterImpl(realEventsLimit, ids, initiators, dateRange);
+        return new AuditJournalFilterImpl(realEventsLimit, ids, initiators, dateRange, mappingEvent);
     }
 
     public AuditJournalFilter withoutFiltering() {
@@ -103,8 +110,8 @@ public class AuditJournalFilterBuilder {
                 DEFAULT_EVENTS_COUNT,
                 new HashSet<>(),
                 new HashSet<>(),
-                new DateRange(MINIMAL_START_DATE, ZonedDateTime.now())
-        );
+                new DateRange(MINIMAL_START_DATE, ZonedDateTime.now()),
+                null);
     }
 
     private static final class AuditJournalFilterImpl implements AuditJournalFilter {
@@ -113,12 +120,14 @@ public class AuditJournalFilterBuilder {
         private final Set<Long> ids;
         private final Set<String> initiators;
         private final DateRange dateRange;
+        private final EntityMappingEvent mappingEvent;
 
-        public AuditJournalFilterImpl(Integer eventsCount, Set<Long> ids, Set<String> initiators, DateRange dateRange) {
+        public AuditJournalFilterImpl(Integer eventsCount, Set<Long> ids, Set<String> initiators, DateRange dateRange, EntityMappingEvent mappingEvent) {
             this.eventsCount = eventsCount;
             this.ids = ids;
             this.initiators = initiators;
             this.dateRange = dateRange;
+            this.mappingEvent = mappingEvent;
         }
 
         @Override
@@ -139,6 +148,10 @@ public class AuditJournalFilterBuilder {
         @Override
         public DateRange inDateRange() {
             return dateRange;
+        }
+
+        public EntityMappingEvent mappingEvent() {
+            return mappingEvent;
         }
 
         @Override
