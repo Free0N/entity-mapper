@@ -63,7 +63,7 @@ public class AuditRecordsResources {
     @GET
     @Path("/records")
     public Response getAuditRecordsList(
-            @QueryParam("mappingId") String mappingIdArg,
+            @QueryParam("mappingId") Long mappingIdArg,
             @QueryParam("initiator") String initiatorLoginArg,
             @QueryParam("startDate") String startDateArg,
             @QueryParam("endDate") String endDateArg,
@@ -71,8 +71,8 @@ public class AuditRecordsResources {
     ) {
         AuditJournalFilterBuilder filterBuilder = new AuditJournalFilterBuilder();
         filterBuilder.withEventsLimit(eventsLimit != null ? eventsLimit : 50);
-        if (mappingIdArg != null && !mappingIdArg.trim().isEmpty()) {
-            filterBuilder.forIds(Long.parseLong(mappingIdArg));
+        if (mappingIdArg != null) {
+            filterBuilder.forIds(mappingIdArg);
         }
         if (initiatorLoginArg != null && !initiatorLoginArg.trim().isEmpty()) {
             filterBuilder.byInitiator(initiatorLoginArg);

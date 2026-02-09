@@ -45,6 +45,7 @@ Copyright (C) 2022 samearch.org
             <aui-option>UPDATE</aui-option>
             <aui-option>DELETE</aui-option>
         </aui-select>
+        <input type="text" id="journal-filter-mappingId" name="journal-filter-mappingId" class="text medium-field" placeholder="mapping id"/>
         <button class="aui-button" id="journal-filter-refresh-button">
             <span class="aui-icon aui-icon-small aui-iconfont-refresh" aria-hidden="true"></span>
         </button>

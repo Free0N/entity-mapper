@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -89,9 +90,8 @@ public class DefaultAuditRecordStorage implements AuditRecordStorage {
                 .limit(filter.eventsCount());
         Map<String, List<Object>> whereClauses = new HashMap<>();
         if (!filter.forIds().isEmpty()) {
-            Set<String> requestedIds = filter.forIds().stream().map(Object::toString).collect(Collectors.toSet());
-            String requestedIdsParam = String.join(", ", requestedIds);
-            whereClauses.put("MAPPING_ID in (?)", Collections.singletonList(requestedIdsParam));
+            List<Object> requestedIds = new ArrayList<>(filter.forIds());
+            whereClauses.put("MAPPING_ID in (?)", requestedIds);
         }
         if (!filter.byInitiator().isEmpty()) {
             List<Object> requestedInitiatorsParam = new ArrayList<>(filter.byInitiator());

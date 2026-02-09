@@ -8,6 +8,7 @@ AJS.toInit(() => {
         ...auditJournalObjects,
         initiatorFilterFieldId: "journal-filter-initiator",
         eventFilterFieldId: "journal-filter-event",
+        mappingIdFilterId: "journal-filter-mappingId",
         refreshButtonId: "journal-filter-refresh-button"
     });
 });
@@ -47,6 +48,7 @@ function initRefreshButton(args) {
         var formattedEndDate = AJS.$.datepicker.formatDate("yymmdd", endDate);
         var initiator = $(`#${args.initiatorFilterFieldId}`).val();
         var event = $(`#${args.eventFilterFieldId}`).val();
+        var mappingId = $(`#${args.mappingIdFilterId}`).val();
 
         var requestFilter = {};
         if (args.startDatePicker.getField().val()) {
@@ -57,6 +59,9 @@ function initRefreshButton(args) {
         }
         if (initiator) {
             requestFilter["initiator"] = initiator;
+        }
+        if (mappingId) {
+            requestFilter["mappingId"] = mappingId;
         }
 
         args.auditJournal.fetch({ reset: true, data: requestFilter});
