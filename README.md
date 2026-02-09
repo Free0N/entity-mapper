@@ -6,6 +6,9 @@
 
 ![Entity Mapper Setting Page](doc/image/entity-mapper-settings-page.png)
 
+## Интерфейс просмотра журнала событий
+![Entity Mapper Audit Page](doc/image/entity-mapper-audit-page.png)
+
 ## Базовое применение
 ### Пример использования в плагинах
 

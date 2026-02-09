@@ -144,6 +144,7 @@
                         <Import-Package>
                             org.springframework.osgi.*;resolution:="optional",
                             org.eclipse.gemini.blueprint.*;resolution:="optional",
+                            com.atlassian.jira.plugin.webfragment.conditions;resolution:="optional",
                             *
                         </Import-Package>
                         <Spring-Context>*</Spring-Context>

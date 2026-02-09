@@ -19,12 +19,40 @@ Copyright (C) 2022 samearch.org
 <head>
     <title>Entity Mappings</title>
     <meta name="decorator" content="admin"/>
+    <meta name="admin.active.section" content="admin_plugins_menu/entity-mapper-settings-section">
+    <meta name="admin.active.tab" content="entity-mapper-audit-link">
     $webResourceManager.requireResource("org.samearch.jira.lib.entity-mapper:entity-mapper-audit-journal-resources")
 </head>
 <body>
 <div class="content-body">
     <h2>Entity mappings changes audit log</h2>
-    <table id="audit_log"></table>
+    <form class="aui">
+        <input class="aui-date-picker" id="journal-filter-start-date-picker" type="date"/>
+        <input class="aui-date-picker" id="journal-filter-end-date-picker" type="date"/>
+        <aui-select
+                id="journal-filter-initiator"
+                name="journal-filter-initiator"
+                placeholder="Initiator"
+                src="/rest/entity-mapper/1/audit/sys-admins"
+                value="type to trigger async"
+        ></aui-select>
+        <aui-select
+                id="journal-filter-event"
+                name="journal-filter-event"
+                placeholder="Event"
+        >
+            <aui-option>CREATE</aui-option>
+            <aui-option>UPDATE</aui-option>
+            <aui-option>DELETE</aui-option>
+        </aui-select>
+        <input type="text" id="journal-filter-mappingId" name="journal-filter-mappingId" class="text medium-field" placeholder="mapping id"/>
+        <button class="aui-button" id="journal-filter-refresh-button">
+            <span class="aui-icon aui-icon-small aui-iconfont-refresh" aria-hidden="true"></span>
+        </button>
+        <div id="audit-journal">
+            <code>Use refresh button to load data</code>
+        </div>
+    </form>
 </div>
 </body>
 </html>

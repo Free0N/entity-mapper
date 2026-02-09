@@ -42,18 +42,34 @@
         <resource type="download" name="entity-mapper.js" location="/js/entity-mapper.js"/>
     </web-resource>
     <web-resource key="entity-mapper-audit-journal-resources" name="Entity Mapper Audit Journal Page Web Resources">
+        <dependency>com.atlassian.auiplugin:aui-date-picker</dependency>
+        <dependency>com.atlassian.auiplugin:aui-select</dependency>
+        <dependency>com.atlassian.auiplugin:aui-button</dependency>
         <dependency>org.samearch.jira.lib.entity-mapper:entity-mapper-common-resources</dependency>
-        <resource type="download" name="audit-additional-info-viewer.js" location="/js/audit-additional-info-viewer.js"/>
-        <resource type="download" name="entity-mapper-audit-journal.js" location="/js/entity-mapper-audit-journal.js"/>
+        <resource type="download" name="flat-audit-log-info-viewer.js" location="/js/flat-audit-log-info-viewer.js"/>
+        <resource type="download" name="flat-audit-log.js" location="/js/flat-audit-log.js"/>
     </web-resource>
 
-    <web-section key="entity-mapper-settings-section" name="Entity Mapper Settings" location="system.admin.top.navigation.bar" weight="1100">
+    <web-section key="entity-mapper-settings-section" name="Entity Mapper Settings"  location="admin_plugins_menu">
         <label>Entity Mapping</label>
+
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.JiraGlobalPermissionCondition">
+            <param name="permission">SYSTEM_ADMIN</param>
+        </condition>
     </web-section>
-    <web-item key="entity-mapper-settings-page-link" name="Link to entity mapper settings" section="entity-mapper-settings-section" weight="100">
+    <web-item key="entity-mapper-settings-link" name="Link to entity mapper settings" section="admin_plugins_menu/entity-mapper-settings-section" weight="100">
         <description>Provides link to entity mapper settings page</description>
         <label>Entity Mapping</label>
-        <link linkId="entity-mapper-settings-section">/plugins/servlet/entity-mapper/mappings</link>
+        <link linkId="entity-mapper-settings-link">/plugins/servlet/entity-mapper/mappings</link>
+
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.JiraGlobalPermissionCondition">
+            <param name="permission">SYSTEM_ADMIN</param>
+        </condition>
+    </web-item>
+    <web-item key="entity-mapper-audit-link" name="Link to entity mappings audit log" section="admin_plugins_menu/entity-mapper-settings-section" weight="200">
+        <description>Provides link to mappings audit log page</description>
+        <label>Entity Mapping Audit</label>
+        <link linkId="entity-mapper-audit-link">/plugins/servlet/entity-mapper/audit-journal</link>
     </web-item>
 
     <servlet-filter key="entity-mapper-rest-auth-permission-checker-filter"
