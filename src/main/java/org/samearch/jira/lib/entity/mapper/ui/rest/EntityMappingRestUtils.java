@@ -17,7 +17,11 @@
 
 package org.samearch.jira.lib.entity.mapper.ui.rest;
 
+import com.atlassian.jira.permission.GlobalPermissionKey;
+import com.atlassian.jira.security.GlobalPermissionManager;
+import com.atlassian.jira.security.groups.GroupManager;
 import com.atlassian.jira.user.ApplicationUser;
+import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import org.apache.commons.lang3.StringUtils;
 import org.samearch.jira.lib.entity.mapper.EntityMapper;
 import org.samearch.jira.lib.entity.mapper.EntityMapping;
@@ -27,7 +31,15 @@ import org.samearch.jira.lib.entity.mapper.ui.rest.dto.EntityMappingDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Набор высокоуровневых утилит, применяемых в реализациях REST endpoin-ов.
@@ -35,10 +47,17 @@ import java.util.Optional;
 @Component
 class EntityMappingRestUtils {
 
+    @ComponentImport
+    private final GlobalPermissionManager globalPermissionManager;
+    @ComponentImport
+    private final GroupManager groupManager;
+
     private final EntityMapper entityMapper;
 
     @Autowired
-    public EntityMappingRestUtils(EntityMapper entityMapper) {
+    public EntityMappingRestUtils(GlobalPermissionManager globalPermissionManager, GroupManager groupManager, EntityMapper entityMapper) {
+        this.globalPermissionManager = globalPermissionManager;
+        this.groupManager = groupManager;
         this.entityMapper = entityMapper;
     }
 
@@ -99,6 +118,34 @@ class EntityMappingRestUtils {
 
         return updatedEntityMapping;
 
+    }
+
+    public List<ApplicationUser> getAdminUsers(String filter) {
+        Collection<ApplicationUser> globalAdmins = globalPermissionManager.getGroupsWithPermission(GlobalPermissionKey.SYSTEM_ADMIN)
+                .stream()
+                .map(groupManager::getUsersInGroup)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+        Collection<ApplicationUser> jiraAdmins = globalPermissionManager.getGroupsWithPermission(GlobalPermissionKey.ADMINISTER)
+                .stream()
+                .map(groupManager::getUsersInGroup)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+        Set<ApplicationUser> adminUsers = new HashSet<>(globalAdmins);
+        adminUsers.addAll(jiraAdmins);
+        return adminUsers.stream()
+                .filter(adminUser -> userDisplayAttributesStartsWith(adminUser, filter))
+                .collect(Collectors.toList());
+    }
+
+    private boolean userDisplayAttributesStartsWith(ApplicationUser user, String filter) {
+        String displayName = user.getDisplayName();
+        String name = user.getName();
+        String email = user.getEmailAddress();
+        return filter.trim().isEmpty()
+                || displayName.startsWith(filter)
+                || name.startsWith(filter)
+                || email.startsWith(filter);
     }
 
 }

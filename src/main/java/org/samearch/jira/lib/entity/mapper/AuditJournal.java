@@ -24,10 +24,9 @@ public interface AuditJournal {
     /**
      * Возвращает список последних событий аудита.
      *
-     * @param lastEventsCount Количество возвращаемых записей о событиях. Если указанное число больше, чем существует
-     *                        записей, то сервис вернет все существующие записи.
+     * @param eventsFilter фильтр, применяемый для выборки информации о событиях
      */
-    List<AuditEventRecord> getLastEvents(int lastEventsCount);
+    List<AuditEventRecord> getEvents(AuditJournalFilter eventsFilter);
 
     /**
      * Сохраняет в журнал запись о событии, произошедшем с паммингом.<br/>
