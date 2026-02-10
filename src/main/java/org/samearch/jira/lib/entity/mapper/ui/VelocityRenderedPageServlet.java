@@ -17,6 +17,8 @@
 
 package org.samearch.jira.lib.entity.mapper.ui;
 
+import com.atlassian.jira.project.Project;
+import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.jira.security.JiraAuthenticationContext;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
@@ -32,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Сервлет рендерит шаблон, указанный в конфигурации (atlassian-plugin.xml)
@@ -43,20 +47,31 @@ public class VelocityRenderedPageServlet extends HttpServlet {
 
     private static final String TEMPLATE_PATH_PARAM_NAME = "template";
 
+    /*
+     * Паттерн выделения ключа проекта из URL-а вида /entity-mapper/project/${projectKey}/mappings.
+     * Подход подсмотрен в реализации плагина jira-project-config-plugin стандартной поставки Jira.
+     * Не самый лучший вариант реализации, т.к. в строке паттерна фигурирует URL, который может меняться.
+     */
+    private static final Pattern PROJECT_KEY_PATTERN = Pattern.compile("/*entity-mapper/project/(?<projectKey>[A-Za-z0-9]+)/mappings");
+
     @ComponentImport
     private final TemplateRenderer templateRenderer;
     @ComponentImport
     private final JiraAuthenticationContext jiraAuthenticationContext;
+    @ComponentImport
+    private final ProjectManager projectManager;
 
     private final UserPermissionChecker userPermissionChecker;
 
     @Autowired
     public VelocityRenderedPageServlet(TemplateRenderer templateRenderer,
                                        JiraAuthenticationContext jiraAuthenticationContext,
+                                       ProjectManager projectManager,
                                        UserPermissionChecker userPermissionChecker) {
 
         this.templateRenderer = templateRenderer;
         this.jiraAuthenticationContext = jiraAuthenticationContext;
+        this.projectManager = projectManager;
         this.userPermissionChecker = userPermissionChecker;
 
     }
@@ -103,9 +118,23 @@ public class VelocityRenderedPageServlet extends HttpServlet {
         Map<String, Object> renderingContext = new HashMap<>();
 
         renderingContext.put("contextPath", request.getContextPath());
+        renderingContext.put("project", extractProjectFromRequest(request));
 
         return renderingContext;
 
+    }
+
+    private Project extractProjectFromRequest(HttpServletRequest request) {
+        String requestPathInfo = request.getPathInfo();
+        if (requestPathInfo == null || requestPathInfo.trim().isEmpty()) {
+            return null;
+        }
+        Matcher matcher = PROJECT_KEY_PATTERN.matcher(request.getPathInfo());
+        if (!matcher.matches()) {
+            return null;
+        }
+        String projectKey = matcher.group("projectKey");
+        return projectManager.getProjectByCurrentKey(projectKey);
     }
 
 }

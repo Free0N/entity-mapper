@@ -72,6 +72,12 @@
         <link linkId="entity-mapper-audit-link">/plugins/servlet/entity-mapper/audit-journal</link>
     </web-item>
 
+    <web-item key="entity-mapper-project-link" name="Link to per project entity mappings" section="atl.jira.proj.config/projectgroup1" weight="12">
+        <description>Provides link to per project entity mappings</description>
+        <label>Entity mappings</label>
+        <link linkId="entity-mapper-project-link">/plugins/servlet/entity-mapper/project/$project.key/mappings</link>
+    </web-item>
+
     <servlet-filter key="entity-mapper-rest-auth-permission-checker-filter"
                     name="Servlet filter for check permission for REST API"
                     class="org.samearch.jira.lib.entity.mapper.ui.rest.PermissionCheckerRestFilter"
@@ -86,6 +92,14 @@
         <init-param>
             <param-name>template</param-name>
             <param-value>/templates/entity-mapper/mappings.vm</param-value>
+        </init-param>
+    </servlet>
+    <servlet key="entity-mapper-project-settings-page" name="Entity Mapper project settings page" class="org.samearch.jira.lib.entity.mapper.ui.VelocityRenderedPageServlet">
+        <description>Provides per project settings page for entity mapper (map keys to values).</description>
+        <url-pattern>/entity-mapper/project/??*/mappings</url-pattern>
+        <init-param>
+            <param-name>template</param-name>
+            <param-value>/templates/entity-mapper/project-mappings.vm</param-value>
         </init-param>
     </servlet>
     <servlet key="entity-mapper-audit-page" name="Entity mappings audit page" class="org.samearch.jira.lib.entity.mapper.ui.VelocityRenderedPageServlet">

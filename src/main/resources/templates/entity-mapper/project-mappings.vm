@@ -1,0 +1,40 @@
+#*
+This file is part of Entity Mapper Plugin.
+
+Entity Mapper Plugin is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+Entity Mapper Plugin is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with Entity Mapper Plugin.
+If not, see <https://www.gnu.org/licenses/>.
+
+Copyright (C) 2022 samearch.org
+*#
+
+<html lang="en">
+<head>
+    <title>Entity Mappings</title>
+    <meta name="decorator" content="admin"/>
+    #if ( $project )
+    <meta name="projectKey" content="${project.key}"/>
+    <meta name="projectId" content="${project.id}"/>
+    <meta name="admin.active.tab" content="entity-mapper-project-link">
+    <meta name="admin.active.section" content="atl.jira.proj.config">
+    $webResourceManager.requireResource("org.samearch.jira.lib.entity-mapper:entity-mapper-mappings-resources")
+    #end
+</head>
+<body>
+<div class="content-body">
+    #if ( $project )
+    <h2>Entity mappings for project</h2>
+    <table id="entity_mappings"></table>
+    #else
+        #include("/templates/entity-mapper/no-project-found-error.vm")
+    #end
+</div>
+</body>
+</html>
