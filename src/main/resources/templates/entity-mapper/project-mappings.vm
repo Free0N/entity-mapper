@@ -31,7 +31,7 @@ Copyright (C) 2022 samearch.org
 <body>
 <div class="content-body">
     #if ( $project )
-    <h2>Entity mappings for project</h2>
+    <h4>Entity mappings for project ${project.name} (${project.key})</h4>
     <table id="entity_mappings"></table>
     #else
         #include("/templates/entity-mapper/no-project-found-error.vm")
