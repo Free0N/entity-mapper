@@ -19,6 +19,8 @@ package org.samearch.jira.lib.entity.mapper.ui.rest;
 
 import com.atlassian.jira.permission.GlobalPermissionKey;
 import com.atlassian.jira.user.ApplicationUser;
+import com.atlassian.jira.user.util.UserManager;
+import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import org.samearch.jira.lib.entity.mapper.api.AuditEventRecord;
 import org.samearch.jira.lib.entity.mapper.api.AuditJournal;
 import org.samearch.jira.lib.entity.mapper.api.AuditJournalFilter;
@@ -53,11 +55,15 @@ public class AuditRecordsResources {
     private static final DateTimeFormatter REQUEST_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static final DateTimeFormatter RESPONSE_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
 
+    @ComponentImport
+    private final UserManager userManager;
+
     private final AuditJournal auditJournal;
     private final EntityMappingRestUtils restUtils;
 
     @Autowired
-    public AuditRecordsResources(AuditJournal auditJournal, EntityMappingRestUtils restUtils) {
+    public AuditRecordsResources(UserManager userManager, AuditJournal auditJournal, EntityMappingRestUtils restUtils) {
+        this.userManager = userManager;
         this.auditJournal = auditJournal;
         this.restUtils = restUtils;
     }
@@ -125,7 +131,11 @@ public class AuditRecordsResources {
 
         auditRecordDto.setId(auditRecord.getId());
         auditRecordDto.setDate(RESPONSE_DATE_TIME_FORMATTER.format(auditRecord.getDate()));
-        auditRecordDto.setInitiator(auditRecord.getInitiator().getName());
+        ApplicationUser initiator = userManager.getUserByKey(auditRecord.getInitiator());
+        String actualInitiatorRepresentation = initiator != null
+                ? initiator.getName()
+                : auditRecord.getInitiator();
+        auditRecordDto.setInitiator(actualInitiatorRepresentation);
         auditRecordDto.setEvent(auditRecord.getEvent());
         auditRecordDto.setMappingId(auditRecord.getMappingId());
         auditRecordDto.setAdditionalInformation(auditRecord.getAdditionalInformation());

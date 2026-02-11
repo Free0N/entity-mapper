@@ -112,7 +112,7 @@ public class MappingSettingsResource {
                 ErrorMessage errorMessage = new ErrorMessage("Mapping key and value can not be empty.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(errorMessage).build();
             }
-            final EntityMapping createdMapping = entityMapper.addMapping(currentUser, mappingKey, mappingValue);
+            final EntityMapping createdMapping = entityMapper.addMapping(currentUser.getKey(), mappingKey, mappingValue);
             final EntityMappingDto createdMappingDto = mappingUtils.objectToDto(createdMapping);
             return Response.ok(createdMappingDto).build();
         } catch (EntityMappingException e) {
@@ -126,7 +126,7 @@ public class MappingSettingsResource {
     public Response deleteMapping(@PathParam("mappingId") Integer mappingId) {
         ApplicationUser currentUser = authenticationContext.getLoggedInUser();
         entityMapper.getMapping(mappingId)
-                .ifPresent(savedMapping -> entityMapper.removeMapping(currentUser, savedMapping.getKey()));
+                .ifPresent(savedMapping -> entityMapper.removeMapping(currentUser.getKey(), savedMapping.getKey()));
         return Response.ok().build();
     }
 

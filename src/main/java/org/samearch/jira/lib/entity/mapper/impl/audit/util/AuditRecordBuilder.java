@@ -17,7 +17,6 @@
 
 package org.samearch.jira.lib.entity.mapper.impl.audit.util;
 
-import com.atlassian.jira.user.ApplicationUser;
 import org.samearch.jira.lib.entity.mapper.api.AuditEventRecord;
 import org.samearch.jira.lib.entity.mapper.api.EntityMapping;
 import org.samearch.jira.lib.entity.mapper.api.EntityMappingEvent;
@@ -34,7 +33,7 @@ import java.util.Map;
 @Component
 public class AuditRecordBuilder {
 
-    public AuditEventRecord buildRecordForCreateMappingEvent(@Nonnull ApplicationUser initiator,
+    public AuditEventRecord buildRecordForCreateMappingEvent(@Nonnull String initiator,
                                                              @Nonnull EntityMapping entityMapping) {
 
         Map<String, String> additionalInfo = buildRecordAdditionalInfo(entityMapping);
@@ -42,7 +41,7 @@ public class AuditRecordBuilder {
 
     }
 
-    public AuditEventRecord buildRecordForDeleteMappingEvent(@Nonnull ApplicationUser initiator,
+    public AuditEventRecord buildRecordForDeleteMappingEvent(@Nonnull String initiator,
                                                              @Nonnull EntityMapping removedMapping) {
 
         Map<String, String> additionalInfo = buildRecordAdditionalInfo(removedMapping);
@@ -50,7 +49,7 @@ public class AuditRecordBuilder {
 
     }
 
-    public AuditEventRecord buildRecordForUpdateMappingEvent(@Nonnull ApplicationUser initiator,
+    public AuditEventRecord buildRecordForUpdateMappingEvent(@Nonnull String initiator,
                                                              @Nonnull EntityMapping currentMappingRecord,
                                                              @Nonnull EntityMapping updatedMappingRecord) {
 
@@ -85,7 +84,7 @@ public class AuditRecordBuilder {
 
     }
 
-    private AuditEventRecord buildBasicJournalRecord(ApplicationUser initiator,
+    private AuditEventRecord buildBasicJournalRecord(String initiator,
                                                      EntityMappingEvent event,
                                                      EntityMapping relatedMapping,
                                                      Map<String, String> additionalInformation) {

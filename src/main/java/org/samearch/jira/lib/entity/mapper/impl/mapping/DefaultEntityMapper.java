@@ -17,7 +17,6 @@
 
 package org.samearch.jira.lib.entity.mapper.impl.mapping;
 
-import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import org.samearch.jira.lib.entity.mapper.api.AuditEventRecord;
 import org.samearch.jira.lib.entity.mapper.api.AuditJournal;
@@ -48,33 +47,33 @@ public class DefaultEntityMapper implements EntityMapper {
     }
 
     @Override
-    public EntityMapping addMapping(ApplicationUser user, String key, String value) throws EntityMappingConflictException {
+    public EntityMapping addMapping(String userKey, String key, String value) throws EntityMappingConflictException {
         EntityMapping createdEntityMapping = mappingManager.addMapping(key, value);
-        AuditEventRecord auditEventRecord = auditRecordBuilder.buildRecordForCreateMappingEvent(user, createdEntityMapping);
+        AuditEventRecord auditEventRecord = auditRecordBuilder.buildRecordForCreateMappingEvent(userKey, createdEntityMapping);
         auditJournal.createAuditEventRecord(auditEventRecord);
         return createdEntityMapping;
     }
 
     @Override
-    public void removeMapping(ApplicationUser user, String key) {
+    public void removeMapping(String userKey, String key) {
         Optional<EntityMapping> savedMappingHolder = mappingManager.getMapping(key);
         if (savedMappingHolder.isPresent()) {
             EntityMapping savedMapping = savedMappingHolder.get();
-            AuditEventRecord auditEventRecord = auditRecordBuilder.buildRecordForDeleteMappingEvent(user, savedMapping);
+            AuditEventRecord auditEventRecord = auditRecordBuilder.buildRecordForDeleteMappingEvent(userKey, savedMapping);
             auditJournal.createAuditEventRecord(auditEventRecord);
             mappingManager.removeMapping(key);
         }
     }
 
     @Override
-    public EntityMapping updateMapping(ApplicationUser user, int mappingId, String key, String newMappingValue) throws EntityMappingNotFoundException, EntityMappingConflictException {
+    public EntityMapping updateMapping(String userKey, int mappingId, String key, String newMappingValue) throws EntityMappingNotFoundException, EntityMappingConflictException {
         Optional<EntityMapping> currentMappingRecordHolder = mappingManager.getMapping(mappingId);
         if (!currentMappingRecordHolder.isPresent()) {
             throw new EntityMappingNotFoundException(mappingId);
         }
         EntityMapping currentMappingRecord = currentMappingRecordHolder.get();
         EntityMapping updatedMappingRecord = mappingManager.updateMapping(mappingId, key, newMappingValue);
-        AuditEventRecord auditEventRecord = auditRecordBuilder.buildRecordForUpdateMappingEvent(user, currentMappingRecord, updatedMappingRecord);
+        AuditEventRecord auditEventRecord = auditRecordBuilder.buildRecordForUpdateMappingEvent(userKey, currentMappingRecord, updatedMappingRecord);
         auditJournal.createAuditEventRecord(auditEventRecord);
         return updatedMappingRecord;
     }

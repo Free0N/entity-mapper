@@ -36,7 +36,7 @@ public class QueryParametersExtractor {
 
         Map<String, Object> createdEntityFields = new HashMap<>();
 
-        createdEntityFields.put("INITIATOR", eventRecord.getInitiator().getName());
+        createdEntityFields.put("INITIATOR", eventRecord.getInitiator());
         createdEntityFields.put("EVENT", eventRecord.getEvent());
         createdEntityFields.put("MAPPING_ID", eventRecord.getMappingId());
 

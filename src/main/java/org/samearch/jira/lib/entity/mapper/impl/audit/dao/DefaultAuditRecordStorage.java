@@ -147,7 +147,7 @@ public class DefaultAuditRecordStorage implements AuditRecordStorage {
         AuditEventRecord eventRecord = new AuditEventRecord();
 
         eventRecord.setId(eventEntity.getId());
-        eventRecord.setInitiator(userManager.getUserByName(eventEntity.getInitiator()));
+        eventRecord.setInitiator(eventEntity.getInitiator());
         eventRecord.setEvent(eventEntity.getEvent());
         eventRecord.setMappingId(eventEntity.getMappingId());
 

@@ -81,7 +81,7 @@ class EntityMappingRestUtils {
         final EntityMapping currentEntityMapping = currentEntityMappingHolder.get();
         final EntityMapping updatedEntityMappingData = constructUpdateMappingObject(currentEntityMapping, updateRequestData);
 
-        return entityMapper.updateMapping(user, mappingId, updatedEntityMappingData.getKey(), updatedEntityMappingData.getValue());
+        return entityMapper.updateMapping(user.getKey(), mappingId, updatedEntityMappingData.getKey(), updatedEntityMappingData.getValue());
 
     }
 

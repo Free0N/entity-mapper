@@ -107,7 +107,7 @@ public class ProjectMappingSettingsResource {
         }
         final String actualMappingKey = buildActualEntityKey(projectKey, entityMappingDto.getKey());
         try {
-            final EntityMapping createdMapping = entityMapper.addMapping(currentUser, actualMappingKey, mappingValue);
+            final EntityMapping createdMapping = entityMapper.addMapping(currentUser.getKey(), actualMappingKey, mappingValue);
             return responseWithMapping(projectKey, createdMapping);
         } catch (EntityMappingException e) {
             return Response.status(Response.Status.CONFLICT).build();
@@ -122,7 +122,7 @@ public class ProjectMappingSettingsResource {
     ) {
         ApplicationUser currentUser = authenticationContext.getLoggedInUser();
         getMappingInProject(projectKey, mappingId)
-                .ifPresent(it -> entityMapper.removeMapping(currentUser, it.getKey()));
+                .ifPresent(it -> entityMapper.removeMapping(currentUser.getKey(), it.getKey()));
         return Response.ok().build();
     }
 

@@ -80,7 +80,7 @@ public class MappingImportResource {
             String mappingValue = entityMappingDto.getValue();
             if (!entityMapper.isMappingPresent(mappingKey)) {
                 try {
-                    entityMapper.addMapping(currentUser, mappingKey, mappingValue);
+                    entityMapper.addMapping(currentUser.getKey(), mappingKey, mappingValue);
                 } catch (EntityMappingException ignore) {
                     /*
                      * Игнорируем ошибку создания маппинга: сейчас она генерируется только в том случае, когда для
