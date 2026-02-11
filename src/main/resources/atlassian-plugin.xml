@@ -38,14 +38,18 @@
         <resource type="download" name="RestfulTableConfigurationBuilder.js" location="/js/RestfulTableConfigurationBuilder.js"/>
     </web-resource>
     <web-resource key="entity-mapper-mappings-resources" name="Entity Mapper Mappings Page Web Resources">
-        <dependency>org.samearch.jira.lib.entity-mapper:entity-mapper-common-resources</dependency>
+        <dependency>${atlassian.plugin.key}:entity-mapper-common-resources</dependency>
         <resource type="download" name="entity-mapper.js" location="/js/entity-mapper.js"/>
+    </web-resource>
+    <web-resource key="entity-mapper-project-mappings-resources" name="Entity Mapper Per Project Mappings Page Web Resources">
+        <dependency>${atlassian.plugin.key}:entity-mapper-common-resources</dependency>
+        <resource type="download" name="entity-mapper-for-project.js" location="/js/entity-mapper-for-project.js"/>
     </web-resource>
     <web-resource key="entity-mapper-audit-journal-resources" name="Entity Mapper Audit Journal Page Web Resources">
         <dependency>com.atlassian.auiplugin:aui-date-picker</dependency>
         <dependency>com.atlassian.auiplugin:aui-select</dependency>
         <dependency>com.atlassian.auiplugin:aui-button</dependency>
-        <dependency>org.samearch.jira.lib.entity-mapper:entity-mapper-common-resources</dependency>
+        <dependency>${atlassian.plugin.key}:entity-mapper-common-resources</dependency>
         <resource type="download" name="flat-audit-log-info-viewer.js" location="/js/flat-audit-log-info-viewer.js"/>
         <resource type="download" name="flat-audit-log.js" location="/js/flat-audit-log.js"/>
     </web-resource>

@@ -21,10 +21,11 @@ Copyright (C) 2022 samearch.org
     <meta name="decorator" content="admin"/>
     #if ( $project )
     <meta name="projectKey" content="${project.key}"/>
+    <meta name="ajs-projectKey" content="${project.key}"/>
     <meta name="projectId" content="${project.id}"/>
     <meta name="admin.active.tab" content="entity-mapper-project-link">
     <meta name="admin.active.section" content="atl.jira.proj.config">
-    $webResourceManager.requireResource("org.samearch.jira.lib.entity-mapper:entity-mapper-mappings-resources")
+    $webResourceManager.requireResource("org.samearch.jira.lib.entity-mapper:entity-mapper-project-mappings-resources")
     #end
 </head>
 <body>
