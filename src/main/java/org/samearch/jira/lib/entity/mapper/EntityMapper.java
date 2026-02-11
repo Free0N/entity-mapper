@@ -60,6 +60,12 @@ public interface EntityMapper {
     Set<EntityMapping> getMappedValues();
 
     /**
+     * Возвращает список существующих маппингов, ключи которых начинаются на указанный фильтр.
+     * @param keyFilter строка, с которой должен начинаться ключ маппинга
+     */
+    Set<EntityMapping> getMappedValuesLike(String keyFilter);
+
+    /**
      * Возвращает маппинг по идентификатору.<br/>
      * <br/>
      * Если маппинг с указанным идентификатором не существует, то в Optional будет лежать пустое значение.

@@ -74,7 +74,7 @@ public class MappingSettingsResource {
     public Response getMappingsList() {
 
         Set<EntityMappingDto> savedMappings = entityMapper.getMappedValues().stream()
-                .map(this::objectToDto)
+                .map(mappingUtils::objectToDto)
                 .collect(Collectors.toSet());
 
         return Response.ok(savedMappings).build();
@@ -89,7 +89,7 @@ public class MappingSettingsResource {
             final int mappingId = Integer.parseInt(mappingIdParam);
             Optional<EntityMapping> savedMappingHolder = entityMapper.getMapping(mappingId);
             if (savedMappingHolder.isPresent()) {
-                return Response.ok(objectToDto(savedMappingHolder.get())).build();
+                return Response.ok(mappingUtils.objectToDto(savedMappingHolder.get())).build();
             } else {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
@@ -112,8 +112,8 @@ public class MappingSettingsResource {
                 ErrorMessage errorMessage = new ErrorMessage("Mapping key and value can not be empty.");
                 return Response.status(Response.Status.BAD_REQUEST).entity(errorMessage).build();
             }
-            final EntityMapping createdMapping = entityMapper.addMapping(currentUser, entityMappingDto.getKey(), entityMappingDto.getValue());
-            final EntityMappingDto createdMappingDto = objectToDto(createdMapping);
+            final EntityMapping createdMapping = entityMapper.addMapping(currentUser, mappingKey, mappingValue);
+            final EntityMappingDto createdMappingDto = mappingUtils.objectToDto(createdMapping);
             return Response.ok(createdMappingDto).build();
         } catch (EntityMappingException e) {
             return Response.status(Response.Status.CONFLICT).build();
@@ -123,21 +123,11 @@ public class MappingSettingsResource {
 
     @DELETE
     @Path("/mapping/{mappingId}")
-    public Response deleteMapping(@PathParam("mappingId") String mappingIdParam) {
-
+    public Response deleteMapping(@PathParam("mappingId") Integer mappingId) {
         ApplicationUser currentUser = authenticationContext.getLoggedInUser();
-        try {
-            final int mappingId = Integer.parseInt(mappingIdParam);
-            Optional<EntityMapping> savedMappingHolder = entityMapper.getMapping(mappingId);
-            if (savedMappingHolder.isPresent()) {
-                final EntityMapping savedMapping = savedMappingHolder.get();
-                entityMapper.removeMapping(currentUser, savedMapping.getKey());
-            }
-            return Response.ok().build();
-        } catch (NumberFormatException e) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-
+        entityMapper.getMapping(mappingId)
+                .ifPresent(savedMapping -> entityMapper.removeMapping(currentUser, savedMapping.getKey()));
+        return Response.ok().build();
     }
 
     @PUT
@@ -154,7 +144,7 @@ public class MappingSettingsResource {
             }
 
             EntityMapping updatedMapping = mappingUtils.updateEntityMappingFromRestRequest(currentUser, mappingId, entityMappingDto);
-            EntityMappingDto updatedMappingDto = objectToDto(updatedMapping);
+            EntityMappingDto updatedMappingDto = mappingUtils.objectToDto(updatedMapping);
 
             return Response.ok(updatedMappingDto).build();
         } catch (NumberFormatException e) {
@@ -167,17 +157,6 @@ public class MappingSettingsResource {
             ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
             return Response.status(Response.Status.BAD_REQUEST).entity(errorMessage).build();
         }
-
-    }
-
-    private EntityMappingDto objectToDto(final EntityMapping object) {
-
-        EntityMappingDto dto = new EntityMappingDto();
-        dto.setId(object.getId());
-        dto.setKey(object.getKey());
-        dto.setValue(object.getValue());
-
-        return dto;
 
     }
 }

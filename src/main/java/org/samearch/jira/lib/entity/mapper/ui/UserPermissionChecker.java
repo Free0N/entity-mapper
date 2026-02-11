@@ -18,7 +18,10 @@
 package org.samearch.jira.lib.entity.mapper.ui;
 
 import com.atlassian.jira.permission.GlobalPermissionKey;
+import com.atlassian.jira.permission.ProjectPermissions;
+import com.atlassian.jira.project.Project;
 import com.atlassian.jira.security.GlobalPermissionManager;
+import com.atlassian.jira.security.PermissionManager;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +32,22 @@ public class UserPermissionChecker {
 
     @ComponentImport
     private final GlobalPermissionManager globalPermissionManager;
+    @ComponentImport
+    private final PermissionManager permissionManager;
 
     @Autowired
-    public UserPermissionChecker(GlobalPermissionManager globalPermissionManager) {
+    public UserPermissionChecker(GlobalPermissionManager globalPermissionManager, PermissionManager permissionManager) {
         this.globalPermissionManager = globalPermissionManager;
+        this.permissionManager = permissionManager;
     }
 
     public boolean isUserHasPermissionForMappingManagement(ApplicationUser user) {
-        return globalPermissionManager.hasPermission(GlobalPermissionKey.SYSTEM_ADMIN, user);
+        return globalPermissionManager.hasPermission(GlobalPermissionKey.SYSTEM_ADMIN, user)
+            || globalPermissionManager.hasPermission(GlobalPermissionKey.SYSTEM_ADMIN, user);
+    }
+
+    public boolean isUserHasPermissionForMappingManagementInProject(ApplicationUser user, Project project) {
+        return permissionManager.hasPermission(ProjectPermissions.ADMINISTER_PROJECTS, project, user);
     }
 
 }

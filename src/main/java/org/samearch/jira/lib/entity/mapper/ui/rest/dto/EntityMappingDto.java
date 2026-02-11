@@ -20,13 +20,14 @@ package org.samearch.jira.lib.entity.mapper.ui.rest.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Objects;
 
 /**
  * Описывает транспортный объект для записи маппинга.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EntityMappingDto {
+public class EntityMappingDto implements Cloneable {
 
     /** Уникальный идентификатор маппинга */
     private int id;
@@ -59,4 +60,35 @@ public class EntityMappingDto {
         this.value = value;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof EntityMappingDto)) return false;
+
+        EntityMappingDto that = (EntityMappingDto) o;
+
+        if (id != that.id) return false;
+        if (!Objects.equals(key, that.key)) return false;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (key != null ? key.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public EntityMappingDto clone() {
+        try {
+            super.clone();
+        } catch (CloneNotSupportedException ignore) {}
+        EntityMappingDto clonedDto = new EntityMappingDto();
+        clonedDto.id = id;
+        clonedDto.key = key;
+        clonedDto.value = value;
+        return clonedDto;
+    }
 }

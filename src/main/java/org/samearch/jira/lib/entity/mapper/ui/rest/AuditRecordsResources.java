@@ -17,6 +17,7 @@
 
 package org.samearch.jira.lib.entity.mapper.ui.rest;
 
+import com.atlassian.jira.permission.GlobalPermissionKey;
 import com.atlassian.jira.user.ApplicationUser;
 import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
 import org.samearch.jira.lib.entity.mapper.AuditJournal;
@@ -107,7 +108,7 @@ public class AuditRecordsResources {
     public Response getAdminUsers(
             @QueryParam("q") String filterString
     ) {
-        List<ApplicationUser> filteredAdmins = restUtils.getAdminUsers(filterString);
+        List<ApplicationUser> filteredAdmins = restUtils.getAdminUsers(filterString, GlobalPermissionKey.SYSTEM_ADMIN, GlobalPermissionKey.ADMINISTER);
         List<Map<String, String>> selectListData = new ArrayList<>();
         filteredAdmins.forEach(admin -> {
             Map<String, String> adminData = new HashMap<>();

@@ -42,61 +42,51 @@ public class DefaultEntityMapper implements EntityMapper {
             EntityMappingManager entityMappingManager,
             AuditJournal auditJournal,
             AuditRecordBuilder auditRecordBuilder) {
-
         this.mappingManager = entityMappingManager;
         this.auditJournal = auditJournal;
         this.auditRecordBuilder = auditRecordBuilder;
-
     }
 
     @Override
     public EntityMapping addMapping(ApplicationUser user, String key, String value) throws EntityMappingConflictException {
-
         EntityMapping createdEntityMapping = mappingManager.addMapping(key, value);
-
         AuditEventRecord auditEventRecord = auditRecordBuilder.buildRecordForCreateMappingEvent(user, createdEntityMapping);
         auditJournal.createAuditEventRecord(auditEventRecord);
-
         return createdEntityMapping;
-
     }
 
     @Override
     public void removeMapping(ApplicationUser user, String key) {
-
         Optional<EntityMapping> savedMappingHolder = mappingManager.getMapping(key);
         if (savedMappingHolder.isPresent()) {
             EntityMapping savedMapping = savedMappingHolder.get();
-
             AuditEventRecord auditEventRecord = auditRecordBuilder.buildRecordForDeleteMappingEvent(user, savedMapping);
             auditJournal.createAuditEventRecord(auditEventRecord);
-
             mappingManager.removeMapping(key);
         }
-
     }
 
     @Override
     public EntityMapping updateMapping(ApplicationUser user, int mappingId, String key, String newMappingValue) throws EntityMappingNotFoundException, EntityMappingConflictException {
-
         Optional<EntityMapping> currentMappingRecordHolder = mappingManager.getMapping(mappingId);
         if (!currentMappingRecordHolder.isPresent()) {
             throw new EntityMappingNotFoundException(mappingId);
         }
-
         EntityMapping currentMappingRecord = currentMappingRecordHolder.get();
         EntityMapping updatedMappingRecord = mappingManager.updateMapping(mappingId, key, newMappingValue);
-
         AuditEventRecord auditEventRecord = auditRecordBuilder.buildRecordForUpdateMappingEvent(user, currentMappingRecord, updatedMappingRecord);
         auditJournal.createAuditEventRecord(auditEventRecord);
-
         return updatedMappingRecord;
-
     }
 
     @Override
     public Set<EntityMapping> getMappedValues() {
         return mappingManager.getMappedValues();
+    }
+
+    @Override
+    public Set<EntityMapping> getMappedValuesLike(String keyFilter) {
+        return mappingManager.getMappedValuesLike(keyFilter);
     }
 
     @Override

@@ -31,14 +31,10 @@ import org.samearch.jira.lib.entity.mapper.ui.rest.dto.EntityMappingDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -117,24 +113,19 @@ class EntityMappingRestUtils {
         }
 
         return updatedEntityMapping;
-
     }
 
-    public List<ApplicationUser> getAdminUsers(String filter) {
-        Collection<ApplicationUser> globalAdmins = globalPermissionManager.getGroupsWithPermission(GlobalPermissionKey.SYSTEM_ADMIN)
-                .stream()
+    /**
+     * Возвращает список пользователей, которые имеют полномочия SYSTEM_ADMIN или ADMINISTER.
+     * @param filter будут возвращены только те пользователи, логин или имя которых начинается с указанной строки
+     */
+    public List<ApplicationUser> getAdminUsers(String filter, GlobalPermissionKey... permissions) {
+        return Arrays.stream(permissions)
+                .map(globalPermissionManager::getGroupsWithPermission)
+                .flatMap(Collection::stream)
                 .map(groupManager::getUsersInGroup)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-        Collection<ApplicationUser> jiraAdmins = globalPermissionManager.getGroupsWithPermission(GlobalPermissionKey.ADMINISTER)
-                .stream()
-                .map(groupManager::getUsersInGroup)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-        Set<ApplicationUser> adminUsers = new HashSet<>(globalAdmins);
-        adminUsers.addAll(jiraAdmins);
-        return adminUsers.stream()
-                .filter(adminUser -> userDisplayAttributesStartsWith(adminUser, filter))
+                .filter(user -> userDisplayAttributesStartsWith(user, filter))
                 .collect(Collectors.toList());
     }
 
@@ -146,6 +137,14 @@ class EntityMappingRestUtils {
                 || displayName.startsWith(filter)
                 || name.startsWith(filter)
                 || email.startsWith(filter);
+    }
+
+    public EntityMappingDto objectToDto(final EntityMapping object) {
+        EntityMappingDto dto = new EntityMappingDto();
+        dto.setId(object.getId());
+        dto.setKey(object.getKey());
+        dto.setValue(object.getValue());
+        return dto;
     }
 
 }
