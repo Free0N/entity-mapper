@@ -15,21 +15,14 @@
  * Copyright (C) 2022 samearch.org
  */
 
-package org.samearch.jira.lib.entity.mapper.exception;
+package org.samearch.jira.lib.entity.mapper.api;
 
-import java.util.TreeSet;
+import java.util.Set;
 
-/**
- * Генерируется в том случае, когда в конфигурации существуют циклические ссылки.
- */
-public class ClosedChainEntityMappingException extends EntityMappingException {
-
-    public ClosedChainEntityMappingException(TreeSet<String> keyChain) {
-
-        String errorMessageHeader = "Closed chain links found:";
-        String keyChainMessagePart = String.join(" > ", keyChain);
-        this.errorMessage = String.format("%s %s", errorMessageHeader, keyChainMessagePart);
-
-    }
-
+public interface AuditJournalFilter {
+    Integer eventsCount();
+    Set<Long> forIds();
+    Set<String> byInitiator();
+    DateRange inDateRange();
+    EntityMappingEvent mappingEvent();
 }

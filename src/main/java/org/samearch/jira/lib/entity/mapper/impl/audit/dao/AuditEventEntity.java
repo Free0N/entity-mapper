@@ -23,7 +23,7 @@ import net.java.ao.schema.AutoIncrement;
 import net.java.ao.schema.NotNull;
 import net.java.ao.schema.PrimaryKey;
 import net.java.ao.schema.Table;
-import org.samearch.jira.lib.entity.mapper.EntityMappingEvent;
+import org.samearch.jira.lib.entity.mapper.api.EntityMappingEvent;
 
 import java.util.Date;
 

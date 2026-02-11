@@ -15,16 +15,24 @@
  * Copyright (C) 2022 samearch.org
  */
 
-package org.samearch.jira.lib.entity.mapper.exception;
+package org.samearch.jira.lib.entity.mapper.api;
 
-public class EntityMappingNotFoundException extends EntityMappingException {
+import java.util.List;
 
-    public EntityMappingNotFoundException(String mappingKey) {
-        this.errorMessage = String.format("Mapping with key '%s' not found", mappingKey);
-    }
+public interface AuditJournal {
 
-    public EntityMappingNotFoundException(int mappingId) {
-        this.errorMessage = String.format("Mapping with #%d not found", mappingId);
-    }
+    /**
+     * Возвращает список последних событий аудита.
+     *
+     * @param eventsFilter фильтр, применяемый для выборки информации о событиях
+     */
+    List<AuditEventRecord> getEvents(AuditJournalFilter eventsFilter);
+
+    /**
+     * Сохраняет в журнал запись о событии, произошедшем с паммингом.<br/>
+     * <br/>
+     * В передаваемой записи поле {@code id} ингнорируется.
+     */
+    AuditEventRecord createAuditEventRecord(AuditEventRecord eventRecord);
 
 }

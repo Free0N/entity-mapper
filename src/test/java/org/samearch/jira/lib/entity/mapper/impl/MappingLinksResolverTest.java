@@ -19,8 +19,8 @@ package org.samearch.jira.lib.entity.mapper.impl;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.samearch.jira.lib.entity.mapper.EntityMapping;
-import org.samearch.jira.lib.entity.mapper.exception.ClosedChainEntityMappingException;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapping;
+import org.samearch.jira.lib.entity.mapper.api.exception.ClosedChainEntityMappingException;
 import org.samearch.jira.lib.entity.mapper.impl.mapping.EntityMappingStorage;
 import org.samearch.jira.lib.entity.mapper.impl.mapping.MappingLinksResolver;
 

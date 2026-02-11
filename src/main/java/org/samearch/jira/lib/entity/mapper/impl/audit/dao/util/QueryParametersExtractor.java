@@ -17,7 +17,7 @@
 
 package org.samearch.jira.lib.entity.mapper.impl.audit.dao.util;
 
-import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
+import org.samearch.jira.lib.entity.mapper.api.AuditEventRecord;
 import org.samearch.jira.lib.entity.mapper.impl.audit.dao.AuditEventAdditionalInfoEntity;
 import org.samearch.jira.lib.entity.mapper.impl.audit.dao.AuditEventEntity;
 import org.springframework.stereotype.Component;

@@ -17,9 +17,9 @@
 
 package org.samearch.jira.lib.entity.mapper.impl.audit.util;
 
-import org.samearch.jira.lib.entity.mapper.AuditJournalFilter;
-import org.samearch.jira.lib.entity.mapper.DateRange;
-import org.samearch.jira.lib.entity.mapper.EntityMappingEvent;
+import org.samearch.jira.lib.entity.mapper.api.AuditJournalFilter;
+import org.samearch.jira.lib.entity.mapper.api.DateRange;
+import org.samearch.jira.lib.entity.mapper.api.EntityMappingEvent;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

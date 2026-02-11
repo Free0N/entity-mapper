@@ -18,9 +18,9 @@
 package org.samearch.jira.lib.entity.mapper.impl.audit.util;
 
 import com.atlassian.jira.user.ApplicationUser;
-import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
-import org.samearch.jira.lib.entity.mapper.EntityMapping;
-import org.samearch.jira.lib.entity.mapper.EntityMappingEvent;
+import org.samearch.jira.lib.entity.mapper.api.AuditEventRecord;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapping;
+import org.samearch.jira.lib.entity.mapper.api.EntityMappingEvent;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nonnull;

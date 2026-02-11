@@ -20,7 +20,7 @@ package org.samearch.jira.lib.entity.mapper.impl.mapping.dao;
 import com.atlassian.activeobjects.external.ActiveObjects;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import net.java.ao.Query;
-import org.samearch.jira.lib.entity.mapper.EntityMapping;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapping;
 import org.samearch.jira.lib.entity.mapper.impl.mapping.EntityMappingStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

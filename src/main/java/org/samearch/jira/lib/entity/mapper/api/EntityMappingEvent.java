@@ -15,24 +15,15 @@
  * Copyright (C) 2022 samearch.org
  */
 
-package org.samearch.jira.lib.entity.mapper;
+package org.samearch.jira.lib.entity.mapper.api;
 
-import java.util.List;
+/**
+ * Список действий, доступных для записи маппинга, которые будут залогированы в журнал аудита.
+ */
+public enum EntityMappingEvent {
 
-public interface AuditJournal {
-
-    /**
-     * Возвращает список последних событий аудита.
-     *
-     * @param eventsFilter фильтр, применяемый для выборки информации о событиях
-     */
-    List<AuditEventRecord> getEvents(AuditJournalFilter eventsFilter);
-
-    /**
-     * Сохраняет в журнал запись о событии, произошедшем с паммингом.<br/>
-     * <br/>
-     * В передаваемой записи поле {@code id} ингнорируется.
-     */
-    AuditEventRecord createAuditEventRecord(AuditEventRecord eventRecord);
+    CREATE,
+    UPDATE,
+    DELETE;
 
 }

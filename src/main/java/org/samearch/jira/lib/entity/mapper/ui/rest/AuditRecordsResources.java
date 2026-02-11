@@ -19,10 +19,10 @@ package org.samearch.jira.lib.entity.mapper.ui.rest;
 
 import com.atlassian.jira.permission.GlobalPermissionKey;
 import com.atlassian.jira.user.ApplicationUser;
-import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
-import org.samearch.jira.lib.entity.mapper.AuditJournal;
-import org.samearch.jira.lib.entity.mapper.AuditJournalFilter;
-import org.samearch.jira.lib.entity.mapper.EntityMappingEvent;
+import org.samearch.jira.lib.entity.mapper.api.AuditEventRecord;
+import org.samearch.jira.lib.entity.mapper.api.AuditJournal;
+import org.samearch.jira.lib.entity.mapper.api.AuditJournalFilter;
+import org.samearch.jira.lib.entity.mapper.api.EntityMappingEvent;
 import org.samearch.jira.lib.entity.mapper.impl.audit.util.AuditJournalFilterBuilder;
 import org.samearch.jira.lib.entity.mapper.ui.rest.dto.AuditEventRecordDto;
 import org.springframework.beans.factory.annotation.Autowired;

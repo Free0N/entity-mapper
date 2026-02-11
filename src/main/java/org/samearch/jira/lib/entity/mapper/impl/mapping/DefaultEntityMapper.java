@@ -19,13 +19,13 @@ package org.samearch.jira.lib.entity.mapper.impl.mapping;
 
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
-import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
-import org.samearch.jira.lib.entity.mapper.AuditJournal;
-import org.samearch.jira.lib.entity.mapper.EntityMapper;
-import org.samearch.jira.lib.entity.mapper.EntityMapping;
-import org.samearch.jira.lib.entity.mapper.exception.ClosedChainEntityMappingException;
-import org.samearch.jira.lib.entity.mapper.exception.EntityMappingConflictException;
-import org.samearch.jira.lib.entity.mapper.exception.EntityMappingNotFoundException;
+import org.samearch.jira.lib.entity.mapper.api.AuditEventRecord;
+import org.samearch.jira.lib.entity.mapper.api.AuditJournal;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapper;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapping;
+import org.samearch.jira.lib.entity.mapper.api.exception.ClosedChainEntityMappingException;
+import org.samearch.jira.lib.entity.mapper.api.exception.EntityMappingConflictException;
+import org.samearch.jira.lib.entity.mapper.api.exception.EntityMappingNotFoundException;
 import org.samearch.jira.lib.entity.mapper.impl.audit.util.AuditRecordBuilder;
 
 import java.util.Optional;

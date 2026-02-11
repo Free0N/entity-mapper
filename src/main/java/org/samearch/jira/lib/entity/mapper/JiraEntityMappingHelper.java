@@ -21,6 +21,7 @@ import com.atlassian.jira.issue.fields.CustomField;
 import com.atlassian.jira.issue.issuetype.IssueType;
 import com.atlassian.jira.issue.status.Status;
 import com.atlassian.jira.project.Project;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapper;
 
 import java.util.Optional;
 

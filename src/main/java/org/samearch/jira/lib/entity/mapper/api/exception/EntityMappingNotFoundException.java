@@ -15,14 +15,16 @@
  * Copyright (C) 2022 samearch.org
  */
 
-package org.samearch.jira.lib.entity.mapper;
+package org.samearch.jira.lib.entity.mapper.api.exception;
 
-import java.util.Set;
+public class EntityMappingNotFoundException extends EntityMappingException {
 
-public interface AuditJournalFilter {
-    Integer eventsCount();
-    Set<Long> forIds();
-    Set<String> byInitiator();
-    DateRange inDateRange();
-    EntityMappingEvent mappingEvent();
+    public EntityMappingNotFoundException(String mappingKey) {
+        this.errorMessage = String.format("Mapping with key '%s' not found", mappingKey);
+    }
+
+    public EntityMappingNotFoundException(int mappingId) {
+        this.errorMessage = String.format("Mapping with #%d not found", mappingId);
+    }
+
 }

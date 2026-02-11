@@ -17,10 +17,10 @@
 
 package org.samearch.jira.lib.entity.mapper.impl.mapping;
 
-import org.samearch.jira.lib.entity.mapper.EntityMapping;
-import org.samearch.jira.lib.entity.mapper.exception.ClosedChainEntityMappingException;
-import org.samearch.jira.lib.entity.mapper.exception.EntityMappingConflictException;
-import org.samearch.jira.lib.entity.mapper.exception.EntityMappingNotFoundException;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapping;
+import org.samearch.jira.lib.entity.mapper.api.exception.ClosedChainEntityMappingException;
+import org.samearch.jira.lib.entity.mapper.api.exception.EntityMappingConflictException;
+import org.samearch.jira.lib.entity.mapper.api.exception.EntityMappingNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

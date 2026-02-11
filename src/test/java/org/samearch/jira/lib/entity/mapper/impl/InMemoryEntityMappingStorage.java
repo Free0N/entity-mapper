@@ -17,7 +17,7 @@
 
 package org.samearch.jira.lib.entity.mapper.impl;
 
-import org.samearch.jira.lib.entity.mapper.EntityMapping;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapping;
 import org.samearch.jira.lib.entity.mapper.impl.mapping.EntityMappingStorage;
 
 import java.util.HashMap;

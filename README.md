@@ -211,7 +211,7 @@ final String CF_INITIAL_PROJECT_ID = "wf.INITIAL_PROJECT_CF.id"
 Project currentProject = issue.projectObject
 
 CustomField initialProjectCf = emHelper.getMappedCustomFieldById(CF_INITIAL_PROJECT_ID)
-            .orElseThrow{new RuntimeException("Initial project field not configured")}
+    .orElseThrow { new RuntimeException("Initial project field not configured") }
 
 initialProjectCf.createValue(issue, currentProject)
 ```

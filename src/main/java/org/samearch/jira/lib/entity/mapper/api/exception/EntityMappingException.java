@@ -15,12 +15,22 @@
  * Copyright (C) 2022 samearch.org
  */
 
-package org.samearch.jira.lib.entity.mapper.exception;
+package org.samearch.jira.lib.entity.mapper.api.exception;
 
-public class EntityMappingConflictException extends EntityMappingException {
+public class EntityMappingException extends Exception {
 
-    public EntityMappingConflictException(String existingMappingKey) {
-        errorMessage = String.format("Mapping with key %s already exists", existingMappingKey);
+    protected String errorMessage;
+
+    public EntityMappingException(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public EntityMappingException() {
+    }
+
+    @Override
+    public String getMessage() {
+        return errorMessage;
     }
 
 }

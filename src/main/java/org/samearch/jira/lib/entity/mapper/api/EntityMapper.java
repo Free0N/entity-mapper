@@ -15,12 +15,12 @@
  * Copyright (C) 2022 samearch.org
  */
 
-package org.samearch.jira.lib.entity.mapper;
+package org.samearch.jira.lib.entity.mapper.api;
 
 import com.atlassian.jira.user.ApplicationUser;
-import org.samearch.jira.lib.entity.mapper.exception.ClosedChainEntityMappingException;
-import org.samearch.jira.lib.entity.mapper.exception.EntityMappingConflictException;
-import org.samearch.jira.lib.entity.mapper.exception.EntityMappingNotFoundException;
+import org.samearch.jira.lib.entity.mapper.api.exception.ClosedChainEntityMappingException;
+import org.samearch.jira.lib.entity.mapper.api.exception.EntityMappingConflictException;
+import org.samearch.jira.lib.entity.mapper.api.exception.EntityMappingNotFoundException;
 
 import java.util.Optional;
 import java.util.Set;

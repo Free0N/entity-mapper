@@ -15,15 +15,12 @@
  * Copyright (C) 2022 samearch.org
  */
 
-package org.samearch.jira.lib.entity.mapper;
+package org.samearch.jira.lib.entity.mapper.api.exception;
 
-/**
- * Список действий, доступных для записи маппинга, которые будут залогированы в журнал аудита.
- */
-public enum EntityMappingEvent {
+public class EntityMappingConflictException extends EntityMappingException {
 
-    CREATE,
-    UPDATE,
-    DELETE;
+    public EntityMappingConflictException(String existingMappingKey) {
+        errorMessage = String.format("Mapping with key %s already exists", existingMappingKey);
+    }
 
 }

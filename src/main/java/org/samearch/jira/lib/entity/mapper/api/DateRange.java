@@ -15,7 +15,7 @@
  * Copyright (C) 2022 samearch.org
  */
 
-package org.samearch.jira.lib.entity.mapper;
+package org.samearch.jira.lib.entity.mapper.api;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;

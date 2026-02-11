@@ -17,8 +17,8 @@
 
 package org.samearch.jira.lib.entity.mapper.impl.audit;
 
-import org.samearch.jira.lib.entity.mapper.AuditEventRecord;
-import org.samearch.jira.lib.entity.mapper.AuditJournalFilter;
+import org.samearch.jira.lib.entity.mapper.api.AuditEventRecord;
+import org.samearch.jira.lib.entity.mapper.api.AuditJournalFilter;
 
 import java.util.List;
 

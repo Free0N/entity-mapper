@@ -17,7 +17,7 @@
 
 package org.samearch.jira.lib.entity.mapper.ui.rest.dto;
 
-import org.samearch.jira.lib.entity.mapper.EntityMappingEvent;
+import org.samearch.jira.lib.entity.mapper.api.EntityMappingEvent;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
