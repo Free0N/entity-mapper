@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,80 +45,64 @@ public class DefaultEntityMappingStorage implements EntityMappingStorage {
 
     @Override
     public EntityMapping createEntityMapping(String key, String value) {
-
         Map<String, Object> createdEntityFields = buildCreationRequestParameters(key, value);
-
         EntityMappingEntity createdEntityMapping = ao.create(EntityMappingEntity.class, createdEntityFields);
-
         return entityToObject(createdEntityMapping);
-
     }
 
     private Map<String, Object> buildCreationRequestParameters(String key, String value) {
-
         Map<String, Object> createdEntityFields = new HashMap<>();
-
         createdEntityFields.put("KEY", key);
         createdEntityFields.put("VALUE", value);
-
         return createdEntityFields;
-
     }
 
     @Override
     public void deleteEntityMapping(String key) {
-
         EntityMappingEntity savedMappingForKey = findMappingByKey(key);
-
         if (savedMappingForKey != null) {
             ao.delete(savedMappingForKey);
         }
-
     }
 
     @Override
     public EntityMapping updateEntityMapping(int mappingId, String newMappingKey, String newMappingValue) {
-
         ao.executeInTransaction(() -> {
             EntityMappingEntity currentSavedMappingEntity = ao.get(EntityMappingEntity.class, mappingId);
-
             if (currentSavedMappingEntity != null) {
                 updatedRecordFields(currentSavedMappingEntity, newMappingKey, newMappingValue);
             }
-
             return null;
         });
 
         return getMappingById(mappingId);
-
     }
 
     private void updatedRecordFields(EntityMappingEntity updatedMappingEntity, String newMappingKey, String newMappingValue) {
-
         updatedMappingEntity.setKey(newMappingKey);
         updatedMappingEntity.setValue(newMappingValue);
         updatedMappingEntity.save();
-
     }
 
     @Override
     public Set<EntityMapping> getEntityMappings() {
-
         EntityMappingEntity[] mappingEntities = ao.find(EntityMappingEntity.class);
-        return Arrays.stream(mappingEntities)
-                .map(this::entityToObject)
-                .collect(Collectors.toSet());
+        return entitiesToSet(mappingEntities);
+    }
 
+    @Override
+    public Set<EntityMapping> getEntityMappingsLike(String keyFilter) {
+        Query query = Query.select().where("KEY like ?", keyFilter + "%");
+        EntityMappingEntity[] mappingEntities = ao.find(EntityMappingEntity.class, query);
+        return entitiesToSet(mappingEntities);
     }
 
     @Override
     public EntityMapping getMappingForKey(String key) {
-
         EntityMappingEntity savedMappingForKey = findMappingByKey(key);
         return (savedMappingForKey != null)
                 ? entityToObject(savedMappingForKey)
                 : null;
-
     }
 
     @Override
@@ -126,9 +111,7 @@ public class DefaultEntityMappingStorage implements EntityMappingStorage {
     }
 
     private EntityMappingEntity findMappingByKey(String key) {
-
         Query mappingSearchQuery = buildQueryForFindMappingByKey(key);
-
         EntityMappingEntity[] savedMappingsForKey = ao.find(EntityMappingEntity.class, mappingSearchQuery);
 
         if (savedMappingsForKey.length > 0) {
@@ -136,18 +119,23 @@ public class DefaultEntityMappingStorage implements EntityMappingStorage {
         } else {
             return null;
         }
-
     }
 
     private Query buildQueryForFindMappingByKey(String key) {
-
         String mappingSearchQueryWhereClause = "KEY = ?";
         return Query.select().where(mappingSearchQueryWhereClause, key);
+    }
 
+    private Set<EntityMapping> entitiesToSet(EntityMappingEntity[] entities) {
+        if (entities == null || entities.length == 0) {
+            return new HashSet<>();
+        }
+        return Arrays.stream(entities)
+            .map(this::entityToObject)
+            .collect(Collectors.toSet());
     }
 
     private EntityMapping entityToObject(EntityMappingEntity entity) {
-
         if (entity == null) {
             return null;
         }
@@ -156,7 +144,6 @@ public class DefaultEntityMappingStorage implements EntityMappingStorage {
         object.setKey(entity.getKey());
         object.setValue(entity.getValue());
         return object;
-
     }
 
 }

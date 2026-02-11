@@ -23,6 +23,7 @@ import org.samearch.jira.lib.entity.mapper.impl.mapping.EntityMappingStorage;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class InMemoryEntityMappingStorage implements EntityMappingStorage {
     private int entitiesCounter = 0;
@@ -71,6 +72,13 @@ public class InMemoryEntityMappingStorage implements EntityMappingStorage {
     @Override
     public Set<EntityMapping> getEntityMappings() {
         return new HashSet<>(mappingsByKey.values());
+    }
+
+    @Override
+    public Set<EntityMapping> getEntityMappingsLike(String keyFilter) {
+        return mappingsByKey.values().stream()
+                .filter(mapping -> mapping.getKey().startsWith(keyFilter))
+                .collect(Collectors.toSet());
     }
 
     @Override

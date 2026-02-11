@@ -36,7 +36,8 @@ public class UserPermissionChecker {
     }
 
     public boolean isUserHasPermissionForMappingManagement(ApplicationUser user) {
-        return globalPermissionManager.hasPermission(GlobalPermissionKey.SYSTEM_ADMIN, user);
+        return globalPermissionManager.hasPermission(GlobalPermissionKey.SYSTEM_ADMIN, user)
+            || globalPermissionManager.hasPermission(GlobalPermissionKey.SYSTEM_ADMIN, user);
     }
 
 }

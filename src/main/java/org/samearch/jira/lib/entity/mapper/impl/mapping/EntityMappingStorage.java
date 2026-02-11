@@ -31,6 +31,7 @@ public interface EntityMappingStorage {
     void deleteEntityMapping(String key);
     EntityMapping updateEntityMapping(int mappingId, String newMappingKey, String newMappingValue);
     Set<EntityMapping> getEntityMappings();
+    Set<EntityMapping> getEntityMappingsLike(String keyFilter);
     EntityMapping getMappingForKey(String key);
     EntityMapping getMappingById(int mappingId);
 

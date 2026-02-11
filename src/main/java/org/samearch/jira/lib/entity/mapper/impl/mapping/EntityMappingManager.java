@@ -105,6 +105,10 @@ public class EntityMappingManager {
         return mappingStorage.getEntityMappings();
     }
 
+    public Set<EntityMapping> getMappedValuesLike(String keyFilter) {
+        return mappingStorage.getEntityMappingsLike(keyFilter);
+    }
+
     public Optional<EntityMapping> getMapping(int mappingId) {
         return Optional.ofNullable(mappingStorage.getMappingById(mappingId));
     }
