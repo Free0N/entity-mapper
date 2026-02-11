@@ -90,7 +90,7 @@
         <url-pattern>/rest/entity-mapper/*</url-pattern>
     </servlet-filter>
 
-    <servlet key="entity-mapper-settings-page" name="Entity Mapper settings page" class="org.samearch.jira.lib.entity.mapper.ui.VelocityRenderedPageServlet">
+    <servlet key="entity-mapper-settings-page" name="Entity Mapper settings page" class="org.samearch.jira.lib.entity.mapper.ui.MappingsAdminPageServlet">
         <description>Provides settings page for entity mapper (map keys to values).</description>
         <url-pattern>/entity-mapper/mappings</url-pattern>
         <init-param>
@@ -98,7 +98,7 @@
             <param-value>/templates/entity-mapper/mappings.vm</param-value>
         </init-param>
     </servlet>
-    <servlet key="entity-mapper-project-settings-page" name="Entity Mapper project settings page" class="org.samearch.jira.lib.entity.mapper.ui.VelocityRenderedPageServlet">
+    <servlet key="entity-mapper-project-settings-page" name="Entity Mapper project settings page" class="org.samearch.jira.lib.entity.mapper.ui.MappingsProjectPageServlet">
         <description>Provides per project settings page for entity mapper (map keys to values).</description>
         <url-pattern>/entity-mapper/project/??*/mappings</url-pattern>
         <init-param>
@@ -106,7 +106,7 @@
             <param-value>/templates/entity-mapper/project-mappings.vm</param-value>
         </init-param>
     </servlet>
-    <servlet key="entity-mapper-audit-page" name="Entity mappings audit page" class="org.samearch.jira.lib.entity.mapper.ui.VelocityRenderedPageServlet">
+    <servlet key="entity-mapper-audit-page" name="Entity mappings audit page" class="org.samearch.jira.lib.entity.mapper.ui.MappingsAdminPageServlet">
         <description>Provides audit journal page for entity mappings.</description>
         <url-pattern>/entity-mapper/audit-journal</url-pattern>
         <init-param>
