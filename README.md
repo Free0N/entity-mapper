@@ -25,8 +25,8 @@
         <!-- описание других зависимостей -->
         <dependency>
             <groupId>org.samearch.jira.lib</groupId>
-            <artifactId>entity-mapper</artifactId>
-            <version>use installed plugin version here</version>
+            <artifactId>entity-mapper-api</artifactId>
+            <version>use installed plugin major version here. "2" as example</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -42,8 +42,8 @@
 import com.atlassian.jira.project.Project;
 import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
-import EntityMapper;
-import EntityMapping;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapper;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +131,7 @@ public class SomeService {
 ```java
 import com.atlassian.jira.project.Project;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
-import JiraEntityMappingHelper;
+import org.samearch.jira.lib.entity.mapper.JiraEntityMappingHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -202,7 +202,7 @@ import org.samearch.jira.lib.entity.mapper.JiraEntityMappingHelper
 import com.atlassian.jira.project.Project
 import com.atlassian.jira.issue.fields.CustomField
 
-@WithPlugin("org.samearch.jira.lib.entity-mapper")
+@WithPlugin("org.samearch.jira.lib.entity-mapper-plugin")
 @PluginModule
 JiraEntityMappingHelper emHelper
 

@@ -21,7 +21,7 @@ Copyright (C) 2022 samearch.org
     <meta name="decorator" content="admin"/>
     <meta name="admin.active.section" content="admin_plugins_menu/entity-mapper-settings-section">
     <meta name="admin.active.tab" content="entity-mapper-settings-link">
-    $webResourceManager.requireResource("org.samearch.jira.lib.entity-mapper:entity-mapper-mappings-resources")
+    $webResourceManager.requireResource("org.samearch.jira.lib.entity-mapper-plugin:entity-mapper-mappings-resources")
 </head>
 <body>
 <div class="content-body">
