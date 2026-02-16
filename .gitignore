@@ -9,3 +9,4 @@
 *.pkcs12
 
 target/
+.m2/

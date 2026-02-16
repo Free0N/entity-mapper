@@ -40,28 +40,10 @@
 
     <properties>
         <atlassian.plugin.key>${project.groupId}.${project.artifactId}</atlassian.plugin.key>
-
         <version.mapping.plugin.api>2</version.mapping.plugin.api>
-
-        <!-- Main Atlassian Jira Platform version -->
-        <version.jira>8.13.27</version.jira>
-
         <!-- Plugin build system components version -->
         <version.amps>8.0.0</version.amps>
         <version.atlassian.spring.scanner>2.1.7</version.atlassian.spring.scanner>
-        <version.scanner>1.2.13</version.scanner>
-
-        <!-- Common modules version -->
-        <version.spring>4.1.6.RELEASE</version.spring>
-
-        <!-- Web Components -->
-        <version.servlet-api>3.1.0</version.servlet-api>
-        <version.jsr311-api>1.1.1</version.jsr311-api>
-        <version.jaxb>2.1</version.jaxb>
-        <version.template-renderer>2.0.0</version.template-renderer>
-
-        <!-- Database components -->
-        <version.ao>1.1.5</version.ao>
     </properties>
 
     <dependencies>
@@ -73,37 +55,37 @@
         <dependency>
             <groupId>com.atlassian.jira</groupId>
             <artifactId>jira-api</artifactId>
-            <version>${version.jira}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>jta</groupId>
+                    <artifactId>jta</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>${version.servlet-api}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>
-            <version>${version.jsr311-api}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>${version.jaxb}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.atlassian.templaterenderer</groupId>
             <artifactId>atlassian-template-renderer-api</artifactId>
-            <version>${version.template-renderer}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.atlassian.activeobjects</groupId>
             <artifactId>activeobjects-plugin</artifactId>
-            <version>${version.ao}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -118,13 +100,11 @@
         <dependency>
             <groupId>com.atlassian.plugin</groupId>
             <artifactId>atlassian-spring-scanner-annotation</artifactId>
-            <version>${version.atlassian.spring.scanner}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${version.spring}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -145,8 +125,8 @@
                     <instructions>
                         <Atlassian-Plugin-Key>${atlassian.plugin.key}</Atlassian-Plugin-Key>
                         <Export-Package>
-                            org.samearch.jira.lib.entity.mapper,
-                            org.samearch.jira.lib.entity.mapper.exception,
+                            org.samearch.jira.lib.entity.mapper.api,
+                            org.samearch.jira.lib.entity.mapper.api.exception,
                         </Export-Package>
                         <Import-Package>
                             org.springframework.osgi.*;resolution:="optional",
@@ -180,6 +160,26 @@
                     </scannedDependencies>
                     <verbose>false</verbose>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.1.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
             </plugin>
         </plugins>
     </build>
