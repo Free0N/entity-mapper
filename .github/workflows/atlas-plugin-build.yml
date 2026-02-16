@@ -2,7 +2,7 @@ name: Build Plugin for Atlassian Jira
 run-name: ${{ github.actor }} is testing out GitHub Actions
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Build-Plugin-For-Atlassian-Jira:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -15,7 +15,11 @@ jobs:
           cache: maven
       - name: build Atlassian Jira plugin
         run: mvn clean package
-      - uses: actions/upload-artifact@v4
+      - name: extract plugin version
+        run: echo ::set-output name=version::$(mvn help:evaluate -f entity-mapper-plugin/pom.xml -Dexpression=project.version -q -DforceStdout)
+        id: project
+      - name: upload release
+        uses: softprops/action-gh-release@v2
         with:
-          name: entity-mapper-plugin
-          path: entity-mapper-plugin/target/entity-mapper-plugin-*.jar
+          tag_name: ${{ steps.project.outputs.version }}
+          files: entity-mapper-plugin/target/entity-mapper-plugin-${{ steps.project.outputs.version }}.jar
