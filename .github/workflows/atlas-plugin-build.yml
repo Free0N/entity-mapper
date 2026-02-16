@@ -1,0 +1,29 @@
+name: Build Plugin for Atlassian Jira
+run-name: Build Plugin and create GitHub release
+on:
+  push:
+    branches:
+      - master
+jobs:
+  Build-Plugin-For-Atlassian-Jira:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v5
+      - name: configure JDK version and provider
+        uses: actions/setup-java@v4
+        with:
+          java-version: 11
+          distribution: temurin
+          cache: maven
+      - name: build Atlassian Jira plugin
+        run: mvn clean package
+      - name: extract plugin version
+        run: echo ::set-output name=version::$(mvn help:evaluate -f entity-mapper-plugin/pom.xml -Dexpression=project.version -q -DforceStdout)
+        id: project
+      - name: upload release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.project.outputs.version }}
+          files: entity-mapper-plugin/target/entity-mapper-plugin-${{ steps.project.outputs.version }}.jar
+          token: ${{ secrets.GH_TOKEN }}

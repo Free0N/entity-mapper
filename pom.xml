@@ -34,14 +34,54 @@
     </organization>
 
     <properties>
+        <version.jira>8.13.27</version.jira>
+
         <!-- Project build settings -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.release>8</maven.compiler.release>
     </properties>
 
     <modules>
         <module>entity-mapper-api</module>
         <module>entity-mapper-plugin</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>atlassian-public</id>
+            <name>Atlassian Public</name>
+            <url>https://packages.atlassian.com/maven/repository/public</url>
+        </repository>
+        <repository>
+            <id>atlassian-external</id>
+            <name>Atlassian External</name>
+            <url>https://packages.atlassian.com/mvn/maven-atlassian-external</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>atlassian-plugins-3d-party</id>
+            <name>Atlassian 3d party plugins repository</name>
+            <url>https://packages.atlassian.com/maven-3rdparty</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>atlassian-public</id>
+            <name>Atlassian Public</name>
+            <url>https://packages.atlassian.com/maven/repository/public</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.atlassian.jira</groupId>
+                <artifactId>jira-project</artifactId>
+                <version>${version.jira}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
