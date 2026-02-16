@@ -23,5 +23,4 @@ jobs:
         with:
           tag_name: ${{ steps.project.outputs.version }}
           files: entity-mapper-plugin/target/entity-mapper-plugin-${{ steps.project.outputs.version }}.jar
-          env:
-            GITHUB_TOKEN: ${{ github.token }}
+          token: ${{ github.token }}
