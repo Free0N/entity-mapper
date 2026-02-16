@@ -131,7 +131,7 @@ public class SomeService {
 ```java
 import com.atlassian.jira.project.Project;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
-import org.samearch.jira.lib.entity.mapper.JiraEntityMappingHelper;
+import org.samearch.jira.lib.entity.mapper.api.JiraEntityMappingHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -197,7 +197,7 @@ _Проверен на Jira 7.1.4 со ScriptRunner 5.1.6.2_
 import com.onresolve.scriptrunner.runner.customisers.PluginModule
 import com.onresolve.scriptrunner.runner.customisers.WithPlugin
 
-import org.samearch.jira.lib.entity.mapper.JiraEntityMappingHelper
+import org.samearch.jira.lib.entity.mapper.api.JiraEntityMappingHelper
 
 import com.atlassian.jira.project.Project
 import com.atlassian.jira.issue.fields.CustomField

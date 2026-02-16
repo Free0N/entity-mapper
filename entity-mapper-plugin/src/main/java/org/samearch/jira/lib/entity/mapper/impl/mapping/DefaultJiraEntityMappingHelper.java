@@ -28,7 +28,7 @@ import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import org.samearch.jira.lib.entity.mapper.api.AuditJournal;
-import org.samearch.jira.lib.entity.mapper.JiraEntityMappingHelper;
+import org.samearch.jira.lib.entity.mapper.api.JiraEntityMappingHelper;
 import org.samearch.jira.lib.entity.mapper.api.exception.ClosedChainEntityMappingException;
 import org.samearch.jira.lib.entity.mapper.impl.audit.util.AuditRecordBuilder;
 import org.slf4j.Logger;
