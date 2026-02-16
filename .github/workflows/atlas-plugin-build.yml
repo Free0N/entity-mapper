@@ -1,6 +1,9 @@
 name: Build Plugin for Atlassian Jira
-run-name: ${{ github.actor }} is testing out GitHub Actions
-on: [push]
+run-name: Build Plugin and create GitHub release
+on:
+  push:
+    branches:
+      - master
 jobs:
   Build-Plugin-For-Atlassian-Jira:
     runs-on: ubuntu-latest
