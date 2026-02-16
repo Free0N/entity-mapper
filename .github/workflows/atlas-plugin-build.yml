@@ -15,8 +15,7 @@ jobs:
           cache: maven
       - name: build Atlassian Jira plugin
         run: mvn clean package
-      - run: mkdir plugin && cp entity-mapper-plugin/target/entity-mapper-plugin-*.jar plugin
       - uses: actions/upload-artifact@v4
         with:
-          name: Plugin
-          path: plugin
+          name: entity-mapper-plugin
+          path: entity-mapper-plugin/target/entity-mapper-plugin-*.jar
