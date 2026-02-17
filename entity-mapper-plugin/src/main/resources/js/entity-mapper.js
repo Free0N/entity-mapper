@@ -24,8 +24,8 @@ AJS.toInit((jQuery) => {
         return;
     }
 
-    let mappingsListEndpoint = AJS.contextPath() + "/rest/entity-mapper/1/settings/mappings";
-    let mappingCrudEndpoint = AJS.contextPath() + "/rest/entity-mapper/1/settings/mapping";
+    let mappingsListEndpoint = AJS.contextPath() + "/rest/entity-mapper/1/mapping";
+    let mappingCrudEndpoint = AJS.contextPath() + "/rest/entity-mapper/1/mapping";
 
     let mainEntityMappingTableConfiguration = tableConfigurationBuilder.buildDefaultConfiguration();
     mainEntityMappingTableConfiguration.el = entityMappingsTableElement;
