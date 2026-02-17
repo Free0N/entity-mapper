@@ -26,6 +26,10 @@ Copyright (C) 2022 samearch.org
 <body>
 <div class="content-body">
     <h2>Entity mappings</h2>
+    <div class="check-box">
+        <input class="check-box" type="checkbox" name="mapping-allow-management-for-project" id="mapping-allow-management-for-project">
+        <label for="mapping-allow-management-for-project">Управление маппингами в настройках проекта</label>
+    </div>
     <table id="entity_mappings"></table>
 </div>
 </body>
