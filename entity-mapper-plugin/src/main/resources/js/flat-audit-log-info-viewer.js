@@ -16,7 +16,7 @@
  */
 
 var AuditJournal = Backbone.Collection.extend({
-    url: AJS.contextPath() + "/rest/entity-mapper/1/audit/records"
+    url: AJS.EntityMapper.restEndpoint("/audit/records")
 });
 
 var AuditJournalView = Backbone.View.extend({

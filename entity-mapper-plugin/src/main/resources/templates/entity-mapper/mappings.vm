@@ -26,6 +26,10 @@ Copyright (C) 2022 samearch.org
 <body>
 <div class="content-body">
     <h2>Entity mappings</h2>
+    <p>
+        <aui-toggle id="mapping-per-project-switcher" label="Управление маппингами в настройках проекта"></aui-toggle>
+        <aui-label for="mapping-per-project-switcher">Управление маппингами в настройках проекта</aui-label>
+    </p>
     <table id="entity_mappings"></table>
 </div>
 </body>

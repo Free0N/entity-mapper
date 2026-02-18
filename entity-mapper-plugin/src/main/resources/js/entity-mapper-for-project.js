@@ -18,15 +18,14 @@
 AJS.toInit((jQuery) => {
     let tableConfigurationBuilder = new AJS.EntityMapper.RestfulTableConfigurationBuilder();
 
-    // Создание элемента основной таблицы настройки маппингов
     let entityMappingsTableElement = jQuery("#entity_mappings");
     if (entityMappingsTableElement.length === 0) {
         return;
     }
 
     let currentProjectKey = AJS.Meta.get("projectKey");
-    let mappingsListEndpoint = AJS.contextPath() + `/rest/entity-mapper/1/project/${currentProjectKey}/mappings`;
-    let mappingCrudEndpoint = AJS.contextPath() + `/rest/entity-mapper/1/project/${currentProjectKey}/mapping`;
+    let mappingsListEndpoint = AJS.EntityMapper.restEndpoint("/project/" + currentProjectKey + "/mappings");
+    let mappingCrudEndpoint = AJS.EntityMapper.restEndpoint("/project/" + currentProjectKey + "/mapping");
 
     let mainEntityMappingTableConfiguration = tableConfigurationBuilder.buildDefaultConfiguration();
     mainEntityMappingTableConfiguration.el = entityMappingsTableElement;
@@ -43,17 +42,6 @@ AJS.toInit((jQuery) => {
     }];
 
     window.entityMappingMainTable = new AJS.RestfulTable(mainEntityMappingTableConfiguration);
-
-    AJS.$("#show-last-audit-records-button").click(function(e) {
-        e.preventDefault();
-        let entityMappingAuditLogTable = window.entityMappingAuditLogTable;
-        entityMappingAuditLogTable.getRows()
-            .forEach((row) => {
-                entityMappingAuditLogTable.removeRow(row);
-            });
-        entityMappingAuditLogTable.fetchInitialResources();
-        window.auditDialogWindow.show();
-    });
 
     jQuery(document).ajaxError((event, jqxhr) => {
         var unknownErrorMessage = 'Неизвестная ошибка. Обратитесь к администратору.';

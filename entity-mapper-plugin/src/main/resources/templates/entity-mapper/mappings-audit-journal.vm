@@ -21,7 +21,7 @@ Copyright (C) 2022 samearch.org
     <meta name="decorator" content="admin"/>
     <meta name="admin.active.section" content="admin_plugins_menu/entity-mapper-settings-section">
     <meta name="admin.active.tab" content="entity-mapper-audit-link">
-    $webResourceManager.requireResource("org.samearch.jira.lib.entity-mapper:entity-mapper-audit-journal-resources")
+    $webResourceManager.requireResource("org.samearch.jira.lib.entity-mapper-plugin:entity-mapper-audit-journal-resources")
 </head>
 <body>
 <div class="content-body">
@@ -49,9 +49,11 @@ Copyright (C) 2022 samearch.org
         <button class="aui-button" id="journal-filter-refresh-button">
             <span class="aui-icon aui-icon-small aui-iconfont-refresh" aria-hidden="true"></span>
         </button>
-        <div id="audit-journal">
-            <code>Use refresh button to load data</code>
-        </div>
+        <p>
+            <div id="audit-journal">
+                <code>Use refresh button to load data</code>
+            </div>
+        </p>
     </form>
 </div>
 </body>
