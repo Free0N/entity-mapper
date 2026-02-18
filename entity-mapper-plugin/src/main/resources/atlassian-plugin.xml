@@ -82,6 +82,7 @@
         <description>Provides link to per project entity mappings</description>
         <label>Entity mappings</label>
         <link linkId="entity-mapper-project-link">/plugins/servlet/entity-mapper/project/$project.key/mappings</link>
+        <condition class="org.samearch.jira.lib.entity.mapper.ui.InProjectManagementCondition"/>
     </web-item>
 
     <servlet-filter key="entity-mapper-rest-auth-permission-checker-filter"

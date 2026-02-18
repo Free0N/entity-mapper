@@ -137,6 +137,8 @@
                             org.springframework.osgi.*;resolution:="optional",
                             org.eclipse.gemini.blueprint.*;resolution:="optional",
                             com.atlassian.jira.plugin.webfragment.conditions;resolution:="optional",
+                            com.atlassian.plugin.web;resolution:="optional",
+                            com.atlassian.plugin.web.baseconditions;resolution:="optional",
                             *
                         </Import-Package>
                         <Spring-Context>*</Spring-Context>
