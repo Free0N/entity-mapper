@@ -51,7 +51,16 @@ function initMainTable(jQuery) {
 }
 
 function initPerProjectManagementToggle(jQuery) {
-    jQuery(document).on("click", `#mapping-per-project-switcher`, function (e) {
+    var perProjectManagementToggleId = "mapping-per-project-switcher";
+    var perProjectManagementToggle = document.getElementById(perProjectManagementToggleId);
+    jQuery.ajax({
+        url: AJS.EntityMapper.restEndpoint("/settings"),
+        type: "GET",
+        success: function (response) {
+            perProjectManagementToggle.checked = response.mappingsEnabledInProjects || false;
+        }
+    });
+    jQuery(document).on("click", `#${perProjectManagementToggleId}`, function (e) {
         e.preventDefault();
         var checker = document.getElementById("mapping-per-project-switcher");
         checker.busy = true;

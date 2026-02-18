@@ -1,0 +1,6 @@
+<div class="aui-message aui-message-error">
+    <p class="title">
+        <strong>Error!</strong>
+    </p>
+    <p>Per project mappings management is disabled</p>
+</div>

@@ -22,6 +22,7 @@ import com.atlassian.jira.security.JiraAuthenticationContext;
 import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
 import com.atlassian.templaterenderer.TemplateRenderer;
+import org.samearch.jira.lib.entity.mapper.PluginSettingsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,16 +50,19 @@ public class MappingsProjectPageServlet extends AbstractMappingsPageServlet {
 
     private final RequestUtils requestUtils;
     private final UserPermissionChecker userPermissionChecker;
+    private final PluginSettingsManager pluginSettingsManager;
 
     @Autowired
     public MappingsProjectPageServlet(TemplateRenderer templateRenderer,
                                       JiraAuthenticationContext jiraAuthenticationContext,
                                       RequestUtils requestUtils,
-                                      UserPermissionChecker userPermissionChecker) {
+                                      UserPermissionChecker userPermissionChecker,
+                                      PluginSettingsManager pluginSettingsManager) {
         super(templateRenderer);
         this.jiraAuthenticationContext = jiraAuthenticationContext;
         this.requestUtils = requestUtils;
         this.userPermissionChecker = userPermissionChecker;
+        this.pluginSettingsManager = pluginSettingsManager;
     }
 
     @Override
@@ -76,6 +80,7 @@ public class MappingsProjectPageServlet extends AbstractMappingsPageServlet {
     protected Map<String, Object> prepareTemplateRenderingContext(HttpServletRequest request) {
         Map<String, Object> mainRenderingContext = super.prepareTemplateRenderingContext(request);
         mainRenderingContext.put("project", requestUtils.extractProjectFromRequestByKey(PROJECT_KEY_PATTERN, request));
+        mainRenderingContext.put("pluginSettings", pluginSettingsManager.getMappingSettings());
         return mainRenderingContext;
     }
 
