@@ -16,6 +16,12 @@
  */
 
 AJS.toInit((jQuery) => {
+    initMainTable(jQuery);
+    initPerProjectManagementToggle(jQuery);
+    initAjaxErrorHandler(jQuery);
+});
+
+function initMainTable(jQuery) {
     let tableConfigurationBuilder = new AJS.EntityMapper.RestfulTableConfigurationBuilder();
 
     // Создание элемента основной таблицы настройки маппингов
@@ -24,8 +30,8 @@ AJS.toInit((jQuery) => {
         return;
     }
 
-    let mappingsListEndpoint = AJS.contextPath() + "/rest/entity-mapper/1/mapping";
-    let mappingCrudEndpoint = AJS.contextPath() + "/rest/entity-mapper/1/mapping";
+    let mappingsListEndpoint = AJS.EntityMapper.restEndpoint("/mapping");
+    let mappingCrudEndpoint = AJS.EntityMapper.restEndpoint("/mapping");
 
     let mainEntityMappingTableConfiguration = tableConfigurationBuilder.buildDefaultConfiguration();
     mainEntityMappingTableConfiguration.el = entityMappingsTableElement;
@@ -42,26 +48,41 @@ AJS.toInit((jQuery) => {
     }];
 
     window.entityMappingMainTable = new AJS.RestfulTable(mainEntityMappingTableConfiguration);
+}
 
-    AJS.$("#show-last-audit-records-button").click(function(e) {
+function initPerProjectManagementToggle(jQuery) {
+    jQuery(document).on("click", `#mapping-per-project-switcher`, function (e) {
         e.preventDefault();
-        let entityMappingAuditLogTable = window.entityMappingAuditLogTable;
-        entityMappingAuditLogTable.getRows()
-            .forEach((row) => {
-                entityMappingAuditLogTable.removeRow(row);
-            });
-        entityMappingAuditLogTable.fetchInitialResources();
-        window.auditDialogWindow.show();
+        var checker = document.getElementById("mapping-per-project-switcher");
+        checker.busy = true;
+        var requestData = {
+            mappingsEnabledInProjects: checker.checked
+        };
+        jQuery.ajax({
+            url: AJS.EntityMapper.restEndpoint("/settings"),
+            type: "PUT",
+            data: JSON.stringify(requestData),
+            contentType: "application/json",
+            success: function (response) {
+                checker.busy = false;
+            },
+            error: function (xhr, status, error) {
+                checker.checked = !requestData.mappingsEnabledInProjects;
+                checker.busy = false;
+            }
+        });
     });
+}
 
+function initAjaxErrorHandler(jQuery) {
     jQuery(document).ajaxError((event, jqxhr) => {
-        var unknownErrorMessage = 'Неизвестная ошибка. Обратитесь к администратору.';
+        var unknownErrorMessage = "Неизвестная ошибка. Обратитесь к администратору.";
         var errorMessage = (JSON.parse(jqxhr.responseText) || {errorMessage: ''}).errorMessage || unknownErrorMessage;
 
         require('aui/flag')({
-            type: 'error',
-            title: 'Ошибка при выполнении операции',
+            type: "error",
+            title: "Ошибка при выполнении операции",
             body: errorMessage
         });
     });
-});
+}

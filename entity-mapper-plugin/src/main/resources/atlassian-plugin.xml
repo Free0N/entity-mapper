@@ -35,9 +35,11 @@
         <dependency>com.atlassian.auiplugin:aui-experimental-iconfont</dependency>
         <dependency>com.atlassian.auiplugin:aui-buttons</dependency>
         <resource type="download" name="images/" location="/images"/>
+        <resource type="download" name="entity-mapper-common.js" location="/js/entity-mapper-common.js"/>
         <resource type="download" name="RestfulTableConfigurationBuilder.js" location="/js/RestfulTableConfigurationBuilder.js"/>
     </web-resource>
     <web-resource key="entity-mapper-mappings-resources" name="Entity Mapper Mappings Page Web Resources">
+        <dependency>com.atlassian.auiplugin:aui-toggle</dependency>
         <dependency>${atlassian.plugin.key}:entity-mapper-common-resources</dependency>
         <resource type="download" name="entity-mapper.js" location="/js/entity-mapper.js"/>
     </web-resource>
