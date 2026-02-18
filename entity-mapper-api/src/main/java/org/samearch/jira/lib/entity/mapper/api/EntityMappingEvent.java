@@ -21,9 +21,7 @@ package org.samearch.jira.lib.entity.mapper.api;
  * Список действий, доступных для записи маппинга, которые будут залогированы в журнал аудита.
  */
 public enum EntityMappingEvent {
-
     CREATE,
     UPDATE,
-    DELETE;
-
+    DELETE
 }

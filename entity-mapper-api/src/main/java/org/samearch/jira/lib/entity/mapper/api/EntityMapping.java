@@ -19,6 +19,10 @@ package org.samearch.jira.lib.entity.mapper.api;
 
 import java.util.Objects;
 
+/**
+ * Сущность маппинга.
+ * Собственно связь между ключем и значением.
+ */
 public class EntityMapping {
 
     private int id;

@@ -21,20 +21,42 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.samearch.jira.lib</groupId>
-        <artifactId>entity-mapper</artifactId>
-        <version>2</version>
-    </parent>
-
+    <groupId>org.samearch.jira.lib</groupId>
     <artifactId>entity-mapper-api</artifactId>
+    <version>2</version>
     <packaging>jar</packaging>
 
     <name>Entity Mapper Plugin API</name>
     <description>Provides API for Entity Mapper Plugin for Atlassian Jira</description>
+    <url>https://github.com/Free0N/entity-mapper</url>
 
-    <organization>
-        <name>samearch.org</name>
-    </organization>
+    <licenses>
+        <license>
+            <name>AGPL-3.0 license</name>
+            <url>https://www.gnu.org/licenses/agpl-3.0.html</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Pavel Afanasev</name>
+            <email>afanasev.p@gmail.com</email>
+            <organization>samearch.org</organization>
+            <organizationUrl>https://github.com/Free0N</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/Free0N/entity-mapper.git</connection>
+        <developerConnection>scm:git:ssh://github.com/Free0N/entity-mapper.git</developerConnection>
+        <url>https://github.com/Free0N/entity-mapper/tree/master</url>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.release>8</maven.compiler.release>
+    </properties>
 
 </project>

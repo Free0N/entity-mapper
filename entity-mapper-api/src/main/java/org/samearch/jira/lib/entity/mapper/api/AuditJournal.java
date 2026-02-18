@@ -19,19 +19,26 @@ package org.samearch.jira.lib.entity.mapper.api;
 
 import java.util.List;
 
+/**
+ * Интерфейс к журналу аудита действий над маппингами.
+ */
 public interface AuditJournal {
 
     /**
      * Возвращает список последних событий аудита.
      *
      * @param eventsFilter фильтр, применяемый для выборки информации о событиях
+     * @return список событий журнала аудита, которые соответствуют указанному фильтру
      */
     List<AuditEventRecord> getEvents(AuditJournalFilter eventsFilter);
 
     /**
-     * Сохраняет в журнал запись о событии, произошедшем с паммингом.<br/>
-     * <br/>
+     * Сохраняет в журнал запись о событии, произошедшем с паммингом.<br>
+     * <br>
      * В передаваемой записи поле {@code id} ингнорируется.
+     *
+     * @param eventRecord заполненный объект записи журнала аудита. В этом объекте поле id заполнять не требуется
+     * @return созданный объект записи журнала аудита. В этом объекте заполнено поле id
      */
     AuditEventRecord createAuditEventRecord(AuditEventRecord eventRecord);
 
