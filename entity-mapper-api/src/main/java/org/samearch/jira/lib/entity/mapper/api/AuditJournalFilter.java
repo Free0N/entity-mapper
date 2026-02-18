@@ -19,6 +19,10 @@ package org.samearch.jira.lib.entity.mapper.api;
 
 import java.util.Set;
 
+/**
+ * Фильтр, применяемы для получения событий журнала аудита действий над маппингами.
+ * Его можно создать используя билдер, реализованный в плагине.
+ */
 public interface AuditJournalFilter {
     Integer eventsCount();
     Set<Long> forIds();
