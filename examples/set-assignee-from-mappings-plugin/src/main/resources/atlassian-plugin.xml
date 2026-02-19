@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ This file is part of Entity Mapper Plugin.
+  ~
+  ~ Entity Mapper Plugin is free software: you can redistribute it and/or modify it
+  ~ under the terms of the GNU Affero General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+  ~
+  ~ Entity Mapper Plugin is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+  ~ without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  ~ See the GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License along with Entity Mapper Plugin.
+  ~ If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2022 samearch.org
+  -->
+
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+  <plugin-info>
+    <description>${project.description}</description>
+    <version>${project.version}</version>
+    <vendor name="${project.organization.name}" url="${project.organization.url}"/>
+    <param name="plugin-icon">images/pluginIcon.png</param>
+    <param name="plugin-logo">images/pluginLogo.png</param>
+  </plugin-info>
+
+  <resource type="i18n" name="i18n" location="set-assignee-from-mappings-plugin"/>
+
+  <workflow-function key="assign-to-duty" name="Assign To Duty" class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+    <description>'Assign To Duty' post-function</description>
+    <function-class>org.samearch.jira.lib.examples.wf.AssignToDuty</function-class>  
+    <resource type="velocity" name="view" location="templates/postfunctions/assign-to-duty.vm"/>
+  </workflow-function>
+</atlassian-plugin>
