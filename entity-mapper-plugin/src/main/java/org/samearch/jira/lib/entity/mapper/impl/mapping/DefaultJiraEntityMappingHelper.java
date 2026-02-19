@@ -27,10 +27,9 @@ import com.atlassian.jira.project.Project;
 import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.plugin.spring.scanner.annotation.export.ExportAsService;
 import com.atlassian.plugin.spring.scanner.annotation.imports.ComponentImport;
-import org.samearch.jira.lib.entity.mapper.api.AuditJournal;
+import org.samearch.jira.lib.entity.mapper.api.EntityMapper;
 import org.samearch.jira.lib.entity.mapper.api.JiraEntityMappingHelper;
 import org.samearch.jira.lib.entity.mapper.api.exception.ClosedChainEntityMappingException;
-import org.samearch.jira.lib.entity.mapper.impl.audit.util.AuditRecordBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +39,11 @@ import java.util.Optional;
 
 @Service
 @ExportAsService({JiraEntityMappingHelper.class})
-public class DefaultJiraEntityMappingHelper extends DefaultEntityMapper implements JiraEntityMappingHelper {
+public class DefaultJiraEntityMappingHelper implements JiraEntityMappingHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultJiraEntityMappingHelper.class);
+
+    private final EntityMapper entityMapper;
 
     @ComponentImport
     private final ProjectManager projectManager;
@@ -59,24 +60,21 @@ public class DefaultJiraEntityMappingHelper extends DefaultEntityMapper implemen
             IssueTypeManager issueTypeManager,
             CustomFieldManager customFieldManager,
             StatusManager statusManager,
-            EntityMappingManager mappingManager,
-            AuditJournal auditJournal,
-            AuditRecordBuilder auditRecordBuilder) {
-
-        super(mappingManager, auditJournal, auditRecordBuilder);
+            EntityMapper entityMapper) {
 
         this.projectManager = projectManager;
         this.issueTypeManager = issueTypeManager;
         this.customFieldManager = customFieldManager;
         this.statusManager = statusManager;
 
+        this.entityMapper = entityMapper;
     }
 
     @Override
     public Optional<Project> getMappedProjectById(String mappedProjectIdKey) {
 
         try {
-            return getMappedValue(mappedProjectIdKey).map(projectIdParam -> {
+            return entityMapper.getMappedValue(mappedProjectIdKey).map(projectIdParam -> {
                 Optional<Project> mappedProject;
                 try {
                     Long projectId = Long.parseLong(projectIdParam);
@@ -97,7 +95,7 @@ public class DefaultJiraEntityMappingHelper extends DefaultEntityMapper implemen
     public Optional<IssueType> getMappedIssueTypeById(String mappedIssueTypeIdKey) {
 
         try {
-            return getMappedValue(mappedIssueTypeIdKey).map(issueTypeManager::getIssueType);
+            return entityMapper.getMappedValue(mappedIssueTypeIdKey).map(issueTypeManager::getIssueType);
         } catch (ClosedChainEntityMappingException e) {
             LOG.error("Check mapping configuration", e);
             return Optional.empty();
@@ -107,35 +105,32 @@ public class DefaultJiraEntityMappingHelper extends DefaultEntityMapper implemen
 
     @Override
     public Optional<CustomField> getMappedCustomFieldById(String mappedCustomFieldIdKey) {
-
         try {
-            return getMappedValue(mappedCustomFieldIdKey).map(customFieldIdParam -> {
-                Optional<CustomField> mappedCustomField;
-                try {
-                    Long customFieldId = Long.parseLong(customFieldIdParam);
-                    mappedCustomField = Optional.ofNullable(customFieldManager.getCustomFieldObject(customFieldId));
-                } catch (NumberFormatException e) {
-                    mappedCustomField = Optional.empty();
-                }
-                return mappedCustomField;
-            }).orElseGet(Optional::empty);
+            return entityMapper.getMappedValue(mappedCustomFieldIdKey)
+                    .flatMap(this::getCfById);
         } catch (ClosedChainEntityMappingException e) {
             LOG.error("Check mapping configuration", e);
             return Optional.empty();
         }
+    }
 
+    private Optional<CustomField> getCfById(String cfIdString) {
+        try {
+            Long cfId = Long.parseLong(cfIdString);
+            return Optional.ofNullable(customFieldManager.getCustomFieldObject(cfId));
+        } catch (NumberFormatException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Status> getMappedIssueStatusById(String mappedIssueStatusIdKey) {
-
         try {
-            return getMappedValue(mappedIssueStatusIdKey).map(statusManager::getStatus);
+            return entityMapper.getMappedValue(mappedIssueStatusIdKey).map(statusManager::getStatus);
         } catch (ClosedChainEntityMappingException e) {
             LOG.error("Check mapping configuration", e);
             return Optional.empty();
         }
-
     }
 
 }

@@ -26,11 +26,13 @@ import org.samearch.jira.lib.entity.mapper.api.exception.ClosedChainEntityMappin
 import org.samearch.jira.lib.entity.mapper.api.exception.EntityMappingConflictException;
 import org.samearch.jira.lib.entity.mapper.api.exception.EntityMappingNotFoundException;
 import org.samearch.jira.lib.entity.mapper.impl.audit.util.AuditRecordBuilder;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
 
-@ExportAsService
+@Service
+@ExportAsService({EntityMapper.class})
 public class DefaultEntityMapper implements EntityMapper {
 
     private final EntityMappingManager mappingManager;

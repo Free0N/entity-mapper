@@ -29,7 +29,7 @@ import java.util.Optional;
  * <br/>
  * Большинство методов возвращают Optional, т.к. информация о наличии значения для указанного ключа имеется только runtime.
  */
-public interface JiraEntityMappingHelper extends EntityMapper {
+public interface JiraEntityMappingHelper {
 
     /**
      * Возвращает проект Jira по идентификатору, сохраненному под указанным ключом.<br/>
