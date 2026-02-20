@@ -7,7 +7,7 @@ import com.atlassian.jira.user.ApplicationUser
 @WithPlugin("org.samearch.jira.lib.entity-mapper-plugin")
 @PluginModule
 EntityMapper entityMapper
-@PluginModule
+@StandardModule
 UserManager userManager
 
 Project project = issue.getProjectObject()
@@ -17,7 +17,7 @@ if (project == null || project.isArchived()) {
 
 String projectKey = project.key
 String projectDutyKey = "project.${projectKey}.duty"
-entityMapper.getMappedValue(projetDutyKey)
+entityMapper.getMappedValue(projectDutyKey)
     .ifPresent { dutyUserLogin ->
         ApplicationUser dutyUser = userManager.getUserByName(dutyUserLogin)
         if (dutyUser != null && dutyUser.active) {
