@@ -2,8 +2,8 @@ name: Build Plugin for Atlassian Jira
 run-name: Build Plugin and create GitHub release
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
 jobs:
   Build-Plugin-For-Atlassian-Jira:
     runs-on: ubuntu-latest
